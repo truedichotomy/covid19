@@ -5,9 +5,9 @@ module COVID19
 # https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Deaths.csv
 # https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Recovered.csv
 
-using CSV, HTTP
+using CSV, HTTP, DataFrames, Dates
 
-export confirmed, death, recovered
+export confirmed, death, recovered, t, lat, lon, country, region
 
 function load_covid19()
     covid19url_confirmed = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv"
@@ -34,7 +34,15 @@ function load_covid19()
 
     return confirmed, death, recovered
 end
-
 (confirmed,death,recovered) = load_covid19()
+
+t0 = Date("2020-01-22")
+ndays = Dates.today() - t0;
+t = collect(t0 : Day(1) : Dates.today());
+
+lat = confirmed.Lat;
+lon = confirmed.Long;
+country = confirmed[:,2];
+region = confirmed[:,3];
 
 end
