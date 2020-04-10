@@ -9,4 +9,6 @@ Idea for a COVID19 model:
 7. can simulate quarantine by removing locations from distribution pool.
 8. can simulate self isolation by changing distance travel distributions
 9. assume that no transmission take place during transit
-10. 100k public schools in U.S., 4770 walmarts, 1868 targets, 38300 supermarkets, 380k churches, 12k starbucks, 31k coffee shops, 660k restaurants, 
+10. 100k public schools in U.S., 4770 walmarts, 1868 targets, 38300 supermarkets, 380k churches, 12k starbucks, 31k coffee shops, 660k restaurants
+
+5x10 boxes representing states
