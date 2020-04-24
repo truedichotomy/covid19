@@ -22,6 +22,10 @@ function load_covid19()
 
     download(covid19url_confirmed_US, covid19path_confirmed_US)
     download(covid19url_confirmed_global, covid19path_confirmed_global)
+    download(covid19url_death_US, covid19path_death_US)
+    download(covid19url_death_global, covid19path_death_global)
+    download(covid19url_recovered_global, covid19path_recovered_global)
+
 
 
 #=     io = open(covid19path_confirmed, "w")
