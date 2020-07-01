@@ -12,6 +12,10 @@ using CSV, HTTP, DataFrames, Dates
 export confirmed, death, recovered, t, lat, lon, country, region
 
 function load_covid19()
+    # data source: https://github.com/nytimes/covid-19-data
+    cv19nyt_county = DataFrame(load("https://github.com/nytimes/covid-19-data/raw/master/us-counties.csv"));
+    cv19nyt_state = DataFrame(load("https://github.com/nytimes/covid-19-data/raw/master/us-states.csv"));
+
     covid19url_confirmed_US = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv"
     covid19url_confirmed_global = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"
     covid19url_death_US = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv"
