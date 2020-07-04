@@ -108,7 +108,7 @@ function load_data(datadir = ENV["HOME"] * "/Box/Data/COVID19/")
     lonus = confirmed_US[:,10];
     countryUS = confirmed_US[:,8];
     province_stateUS = collect(Missings.replace(confirmed_US[:,7],""));
-    fips = collect(Missings.replace(confirmed_US[:,5],-9999));
+    fips = collect(Missings.replace(confirmed_US[:,5],-99999));
     county = collect(Missings.replace(confirmed_US[:,6],""));
     key = confirmed_US[:,11];
 
