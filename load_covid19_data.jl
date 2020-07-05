@@ -44,35 +44,3 @@ statefips = [strfips[i][1:2] for i in 1:length(strfips)];
 
 ## Calculating Cases per population/area
 
-## calculate per state and total confirmed for US
-tind = 1:length(covid19us[1].confirmed);
-t = covid19us[1].time[tind];
-totalconfirmed = zeros(length(t));
-stateconfirmed = Array{Any}(undef, length(ustate));
-for si = 1:length(ustate)
-    #display(ustate[si])
-    ind = findall((country .== "US") .& (state .== ustate[si]));
-    #confirmed = Array{Any}(undef,length(ind));
-    confirmed = [Float64.(covid19us[ind[i]].confirmed) for i in 1:length(ind)];
-    stateconfirmed[si] = Float64.(deepcopy(confirmed[1]));
-    for i = 2:length(confirmed)
-        stateconfirmed[si] .= stateconfirmed[si] .+ confirmed[i];
-    end
-    totalconfirmed .= totalconfirmed .+ stateconfirmed[si];
-    #display(totalconfirmed)
-end
-ind0 = findall(totalconfirmed .== 0);
-totalconfirmed[ind0] .= NaN
-
-## calculate per county case counts for specific state
-state_of_interest = "Virginia"
-ind = findall(state .== state_of_interest);
-countyconfirmed = [Float64.(covid19us[ind[i]].confirmed) for i in 1:length(ind)];
-statetotalconfirmed = Float64.(deepcopy(countyconfirmed[1]));
-for i = 2:length(countyconfirmed)
-    statetotalconfirmed .= statetotalconfirmed .+ countyconfirmed[i];
-end
-ind0 = findall(statetotalconfirmed .== 0);
-statetotalconfirmed[ind0] .= NaN;
-tindstate = 1:length(covid19us[ind[1]].confirmed);
-tstate = covid19us[ind[1]].time[tind];
