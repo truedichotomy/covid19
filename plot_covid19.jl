@@ -3,7 +3,9 @@ using Dates, Formatting
 
 #include("load_covid19_data.jl")
 
-states_of_interest = ["Virginia","North Carolina","West Virginia","Delaware", "New York", "New Jersey", "Massachusetts", "Texas","Florida","California","Michigan", "Ohio", "Washington", "Oregon", "Oklahoma", "Maryland", "District of Columbia", "Arizona","Georgia","South Carolina", "Mississippi", "Maine", "Pennsylvania", "Puerto Rico", "Colorado", "New Hampshire", "Iowa", "Vermont"]
+#states_of_interest = ["Virginia","North Carolina","West Virginia","Delaware", "New York", "New Jersey", "Massachusetts", "Texas","Florida","California","Michigan", "Ohio", "Washington", "Oregon", "Illinois", "Oklahoma", "Maryland", "District of Columbia", "Arizona","Georgia","South Carolina", "Mississippi", "Maine", "Pennsylvania", "Puerto Rico", "Colorado", "New Hampshire", "Iowa", "Vermont"]
+
+states_of_interest = ["Illinois"]
 
 strnow = string(Dates.now())
 strnow30 = strnow[1:4] * strnow[6:7] * strnow[9:10] * "T" * strnow[12:13] * strnow[15:16] * strnow[18:19]
@@ -45,6 +47,7 @@ for j = 1:length(states_of_interest)
 
     ## calculate per county case counts for specific state
     ind = findall(state .== state_of_interest);
+    #ind = findall((state .== state_of_interest) .& (county .!= "Unassigned"));
     countyconfirmed = [Float64.(covid19us[ind[i]].confirmed) for i in 1:length(ind)];
     dcountyconfirmed = Array{Any}(undef, length(countyconfirmed));
     statetotalconfirmed = Float64.(deepcopy(countyconfirmed[1]));
