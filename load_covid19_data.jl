@@ -26,12 +26,6 @@ fips = [covid19us[i].fips for i in 1:length(covid19us)];
 county = [covid19us[i].county for i in 1:length(covid19us)];
 state = [covid19us[i].province_state for i in 1:length(covid19us)];
 ustate = unique(state);
-countytable = load_county_data();
-censusfips = countytable.STATEFP .* countytable.COUNTYFP;
-aland = countytable.ALAND;
-awater = countytable.AWATER;
-countyname = countytable.NAME;
-
 mfips = deepcopy(fips);
 strfips = string.(fips);
 terrind = findall(0 .<= mfips .< 100);
@@ -40,6 +34,21 @@ gind = findall(mfips .>= 0);
 mfips[gind] = mfips[gind] .+ 100000;
 strfips = [string(mfips[i])[2:end] for i in 1:length(mfips)];
 statefips = [strfips[i][1:2] for i in 1:length(strfips)];
-;
+
+countytable = load_county_data();
+ctcensusfips = countytable.STATEFP .* countytable.COUNTYFP;
+ctaland = countytable.ALAND;
+ctawater = countytable.AWATER;
+ctname = countytable.NAME;
+
+countyarea = zeros(length(strfips));
+for i = 1:length(strfips)
+    if parse(Int,strfips[i][1:2]) <= 59
+        fipsind = findall(strfips[i] .== ctcensusfips);
+        countyarea[i] = ctaland[fipsind[1]];
+    end
+end
 
 ## Calculating Cases per population/area
+#strfips[1:end-110] .* state[1:end-110]
+#sort(censusfips)[1:end-90]
