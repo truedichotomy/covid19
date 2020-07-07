@@ -43,7 +43,7 @@ for j = 1:length(states_of_interest)
     dind0 = findall(dtotalconfirmed .== 0);
     dtotalconfirmed[dind0] .= NaN
 
-    state_of_interest = states_of_interest[j]
+    state_of_interest = states_of_interest[j];
 
     ## calculate per county case counts for specific state
     ind = findall(state .== state_of_interest);
@@ -70,6 +70,11 @@ for j = 1:length(states_of_interest)
 
     tindstate = 1:length(covid19us[ind[1]].confirmed);
     tstate = covid19us[ind[1]].time[tind];
+
+    # extracting county indices with land area and population
+    cind = findall((countyarea .> 0) .& (cpop .> 0));
+    Makie.scatter(clon[cind],clat[cind], color = cpop[cind], markersize = log10.(countyarea[cind])/10)
+
 
     # Plot COVID19 data!
     l8out = @layout([a; b; c; d])
