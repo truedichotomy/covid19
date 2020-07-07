@@ -1,4 +1,8 @@
 module COVID19
+# Usage:
+#import COVID19
+#(covid19g, covid19us) = COVID19.load_data();
+#
 # This code loads COVID19 data from https://github.com/CSSEGISandData/COVID-19
 #
 # COVID19:
@@ -120,7 +124,4 @@ function load_data(datadir = ENV["HOME"] * "/Box/Data/COVID19/")
     return covid19global, covid19us
 end
 
-# Usage:
-#import COVID19
-#(covid19g, covid19us) = COVID19.load_data();
 end

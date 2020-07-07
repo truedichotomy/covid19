@@ -12,6 +12,11 @@ end
 using Plots, Statistics, Shapefile, WebIO, DataFrames, Glob
 plotly()
 
+## Load CENSUS TIGER/Line Shapefile Data
+function load_county_data(countyshppath = "/Users/gong/Box/Data/CENSUS/tl_2019_us_county/tl_2019_us_county.shp")
+    return countytable = Shapefile.Table(countyshppath);
+end
+
 ## Load COVID-19 Data
 import COVID19
 (covid19g, covid19us) = COVID19.load_data();
@@ -21,12 +26,6 @@ fips = [covid19us[i].fips for i in 1:length(covid19us)];
 county = [covid19us[i].county for i in 1:length(covid19us)];
 state = [covid19us[i].province_state for i in 1:length(covid19us)];
 ustate = unique(state);
-
-## Load CENSUS TIGER/Line Shapefile Data
-function load_county_data(countyshppath = "/Users/gong/Box/Data/CENSUS/tl_2019_us_county/tl_2019_us_county.shp")
-    return countytable = Shapefile.Table(countyshppath);
-end
-
 countytable = load_county_data();
 censusfips = countytable.STATEFP .* countytable.COUNTYFP;
 aland = countytable.ALAND;
@@ -41,6 +40,6 @@ gind = findall(mfips .>= 0);
 mfips[gind] = mfips[gind] .+ 100000;
 strfips = [string(mfips[i])[2:end] for i in 1:length(mfips)];
 statefips = [strfips[i][1:2] for i in 1:length(strfips)];
+;
 
 ## Calculating Cases per population/area
-

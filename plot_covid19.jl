@@ -1,11 +1,11 @@
 
 using Dates, Formatting
 
-#include("load_covid19_data.jl")
+include("load_covid19_data.jl")
 
-#states_of_interest = ["Virginia","North Carolina","West Virginia","Delaware", "New York", "New Jersey", "Massachusetts", "Texas","Florida","California","Michigan", "Ohio", "Washington", "Oregon", "Illinois", "Oklahoma", "Maryland", "District of Columbia", "Arizona","Georgia","South Carolina", "Mississippi", "Maine", "Pennsylvania", "Puerto Rico", "Colorado", "New Hampshire", "Iowa", "Vermont"]
+states_of_interest = ["Virginia","North Carolina","West Virginia","Delaware", "New York", "New Jersey", "Massachusetts", "Texas","Florida","California","Michigan", "Ohio", "Washington", "Oregon", "Illinois", "Oklahoma", "Maryland", "District of Columbia", "Arizona","Georgia","South Carolina", "Mississippi", "Maine", "Pennsylvania", "Puerto Rico", "Colorado", "New Hampshire", "Iowa", "Vermont"]
 
-states_of_interest = ["Illinois"]
+#states_of_interest = ["Illinois"]
 
 strnow = string(Dates.now())
 strnow30 = strnow[1:4] * strnow[6:7] * strnow[9:10] * "T" * strnow[12:13] * strnow[15:16] * strnow[18:19]
@@ -82,7 +82,7 @@ for j = 1:length(states_of_interest)
         confirmi[ind0] .= NaN;
         Plots.plot!(t, confirmi, label=ustate[si])
     end
-    Plots.plot(pCOVID19usa, yscale=:log10, framestyle=:box, title="US - Confirmed COVID-19 Cases " * "on " * string(t[end])[1:10] * ":  " * totalconfirmed_strfmt)
+    Plots.plot(pCOVID19usa, yscale=:log, framestyle=:box, title="US - Confirmed COVID-19 Cases " * "on " * string(t[end])[1:10] * ":  " * totalconfirmed_strfmt, ylim=(1,exp(15)))
 
     dtotalconfirmed_strfmt = Formatting.format.(dtotalconfirmed[end], commas=true);
     dCOVID19usa = Plots.plot(t[2:end], dtotalconfirmed, label="USA Daily Cases")
@@ -103,7 +103,7 @@ for j = 1:length(states_of_interest)
         confirmi[ind0] .= NaN;
         Plots.plot!(covid19us[ind[i]].time[tind], confirmi, label=county[ind[i]])
     end
-    Plots.plot(pCOVID19state, yscale=:log10, framestyle=:box, title=state[ind[1]] * " - Confirmed COVID-19 Cases " * "on " * string(t[end])[1:10] * ":  " * statetotalconfirmed_strfmt)
+    Plots.plot(pCOVID19state, yscale=:log, framestyle=:box, title=state[ind[1]] * " - Confirmed COVID-19 Cases " * "on " * string(t[end])[1:10] * ":  " * statetotalconfirmed_strfmt)
 
     dstatetotalconfirmed_strfmt = Formatting.format.(dstatetotalconfirmed[end], commas=true);
     dCOVID19state = Plots.plot(tstate[2:end], dstatetotalconfirmed, label=state[ind[1]] * " Daily Cases")
@@ -117,9 +117,9 @@ for j = 1:length(states_of_interest)
 
     covid19plot = Plots.plot(pCOVID19usa, dCOVID19usa, pCOVID19state, dCOVID19state, layout = l8out,  xrotation=30, size=(800,900), xticks = t[1:7:end], legend=:false);
 
-    Plots.savefig(covid19plot, "/Volumes/GoogleDrive/My Drive/COVID19/" * "covid19_" * filter(x -> !isspace(x), state_of_interest) * "_" * strnow30[1:8] * ".html")
+    #Plots.savefig(covid19plot, "/Volumes/GoogleDrive/My Drive/COVID19/" * "covid19_" * filter(x -> !isspace(x), state_of_interest) * "_" * strnow30[1:8] * ".html")
     #Plots.savefig(covid19plot, "~/Dropbox/COVID19/" * "covid19_" * filter(x -> !isspace(x), state_of_interest) * "_" * strnow30[1:8] * ".html")
-    #Plots.savefig(covid19plot, "~/Box/Projects/COVID19/" * "covid19_" * filter(x -> !isspace(x), state_of_interest) * "_" * strnow30[1:8] * ".html")
+    Plots.savefig(covid19plot, "~/Box/Projects/COVID19/" * "covid19_" * filter(x -> !isspace(x), state_of_interest) * "_" * strnow30[1:8] * ".html")
     #gui(covid19plot)
     #sleep(1.0)
 end
