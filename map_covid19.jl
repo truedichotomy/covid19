@@ -58,7 +58,7 @@ function pmapconfirmed()
         marker_colorscale="Jet",
         marker_showscale = true,
         hoverinfo="text",
-        hovertext=df[:CONFIRMED],
+        hovertext=string.(df[:CONFIRMED]) .* " " .* county[cind],
         );
 
     geo = attr(scope="usa", 
@@ -86,7 +86,7 @@ function pmapdconfirmed()
         marker_colorscale="Jet",
         marker_showscale = true,
         hoverinfo="text",
-        hovertext=df[:dCONFIRMED],
+        hovertext=string.(df[:dCONFIRMED]) .* " " .* county[cind],
         );
 
     geo = attr(scope="usa", 
@@ -114,7 +114,7 @@ function pmapdeath()
         marker_colorscale="Jet",
         marker_showscale = true,
         hoverinfo="text",
-        hovertext=df[:DEATH],
+        hovertext=string.(df[:DEATH]) .* " " .* county[cind],
         );
 
     geo = attr(scope="usa", 
@@ -142,7 +142,7 @@ function pmapddeath()
         marker_colorscale="Jet",
         marker_showscale = true,
         hoverinfo="text",
-        hovertext=df[:dDEATH],
+        hovertext=string.(df[:dDEATH]) .* " " .* county[cind],
         );
 
     geo = attr(scope="usa", 
