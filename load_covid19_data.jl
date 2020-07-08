@@ -9,8 +9,7 @@ end
 #]add CSV HTTP GitHub DataFrames PyCall PyPlot Plots Dates Statistics TimeSeries MLJ XGBoost Measurements LsqFit NCDatasets Glob JSON3 Tables Pandas FileIO CSVFiles Missings JLD2 OnlineStats CUDAnative CuArrays
 #Pkg.build("PyCall")
 
-using Plots, Statistics, Shapefile, WebIO, DataFrames, Glob
-plotly()
+using Dates, Statistics, Shapefile, DataFrames, Glob
 
 ## Load CENSUS TIGER/Line Shapefile Data
 function load_county_data(countyshppath = "/Users/gong/Box/Data/CENSUS/tl_2019_us_county/tl_2019_us_county.shp")

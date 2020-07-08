@@ -1,9 +1,11 @@
 
-using Dates, Formatting, Makie, Plots, ColorSchemes, Plotly, DataFrames
+using Dates, Formatting, Plots, ColorSchemes, Plotly, WebIO, DataFrames
+plotly()
+using Makie
 
 include("load_covid19_data.jl")
 
-states_of_interest = ["Virginia","North Carolina","West Virginia","Delaware", "New York", "New Jersey", "Massachusetts", "Texas","Florida","California","Michigan", "Ohio", "Washington", "Oregon", "Illinois", "Oklahoma", "Maryland", "District of Columbia", "Arizona","Georgia","South Carolina", "Mississippi", "Maine", "Pennsylvania", "Puerto Rico", "Colorado", "New Hampshire", "Iowa", "Vermont"]
+states_of_interest = ["Virginia","North Carolina","West Virginia","Delaware", "New York", "New Jersey", "Massachusetts", "Texas","Florida","California","Michigan", "Ohio", "Washington", "Oregon", "Illinois", "Oklahoma", "Maryland", "District of Columbia", "Alaska", "Arizona","Georgia","South Carolina", "Mississippi", "Maine", "Pennsylvania", "Puerto Rico", "Colorado", "New Hampshire", "Iowa", "Vermont","Hawaii"]
 
 strnow = string(Dates.now())
 strnow30 = strnow[1:4] * strnow[6:7] * strnow[9:10] * "T" * strnow[12:13] * strnow[15:16] * strnow[18:19]
@@ -16,6 +18,7 @@ reasonable_resolution() = (1000, 800)
 tind = 1:length(covid19us[1].confirmed);
 t = covid19us[1].time[tind];
 
+#=
 # plot a map of confirmed cases
 #cval = cconfirmed[cind] ./ (countyarea[cind] .* cpop[cind]);
 cval = cconfirmed[cind] ./ cpop[cind];
@@ -23,15 +26,16 @@ log10cval = log10.(cval);
 #sval = countyarea[cind] .* cpop[cind];
 sval = cpop[cind];
 log10sval = log10.(sval);
-
+dfconfirmed = DataFrame(LON = clon[cind], LAT = clat[cind], log10POPULATION = log10.(cpop[cind]), log10CONFIRMED = log10.(cconfirmed[cind] ./ cpop[cind]));
+#Plotly.scattermapbox(dfconfirmed, lat="LAT", lon="LON", color="log10CONFIRMED", size="log10POPULATION", color_continuous_scale=ColorSchemes.matter.colors, mapbox_style="cart-positron");
 
 scene = Makie.scatter(clon[cind],clat[cind], color = log10cval, markersize = log10sval/10, colormap = ColorSchemes.matter.colors, limits = FRect(-125, 25, 60, 27))
-text!(scene, "©Donglai Gong", textsize = 1, position = (-125, 26))
-cb = colorlegend!(scene, raw = true, camera=campixel!, width = (30,540))
+#text!(scene, "©Donglai Gong", textsize = 1, position = (-125, 26))
+#cb = colorlegend!(scene, raw = true, camera=campixel!, width = (30,540))
 axis = scene[Axis];
 axis.names.axisnames = ("Longitude", "Latitude");
 axis.names.title = (string(t[end])[1:10] * " Total Confirmed Cases per Capita (log)");
-scene_final = vbox(scene, cb)
+#scene_final = vbox(scene, cb)
 Makie.save("/Volumes/GoogleDrive/My Drive/COVID19/" * "covid19_confirmed_map.png", scene)
 
 # plot a map of change in confirmed cases
@@ -83,7 +87,7 @@ axis = scene[Axis];
 axis.names.axisnames = ("Longitude", "Latitude")
 axis.names.title = string(t[end])[1:10] * " New Weekly Deaths per Capita (log)"
 Makie.save("/Volumes/GoogleDrive/My Drive/COVID19/" * "covid19_delta_dealth_map.png", scene)
-
+=#
 
 for j = 1:length(states_of_interest)
     display(states_of_interest[j])
