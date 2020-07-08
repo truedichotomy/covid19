@@ -1,5 +1,5 @@
 
-using Dates, Formatting, Makie, Plots, ColorSchemes, AbstractPlotting
+using Dates, Formatting, Makie, Plots, ColorSchemes, Plotly, DataFrames
 
 include("load_covid19_data.jl")
 
@@ -22,7 +22,8 @@ cval = cconfirmed[cind] ./ cpop[cind];
 log10cval = log10.(cval);
 #sval = countyarea[cind] .* cpop[cind];
 sval = cpop[cind];
-log10sval = log10.(sval);svalscl = (log10sval .- minimum(log10sval)) ./ (maximum(log10sval) - minimum(log10sval)) 
+log10sval = log10.(sval);
+
 
 scene = Makie.scatter(clon[cind],clat[cind], color = log10cval, markersize = log10sval/10, colormap = ColorSchemes.matter.colors, limits = FRect(-125, 25, 60, 27))
 text!(scene, "©Donglai Gong", textsize = 1, position = (-125, 26))
