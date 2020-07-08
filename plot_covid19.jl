@@ -1,7 +1,7 @@
 
-using Dates, Formatting
+using Dates, Formatting, Makie, Plots
 
-include("load_covid19_data.jl")
+#include("load_covid19_data.jl")
 
 states_of_interest = ["Virginia","North Carolina","West Virginia","Delaware", "New York", "New Jersey", "Massachusetts", "Texas","Florida","California","Michigan", "Ohio", "Washington", "Oregon", "Illinois", "Oklahoma", "Maryland", "District of Columbia", "Arizona","Georgia","South Carolina", "Mississippi", "Maine", "Pennsylvania", "Puerto Rico", "Colorado", "New Hampshire", "Iowa", "Vermont"]
 
@@ -9,6 +9,12 @@ states_of_interest = ["Virginia","North Carolina","West Virginia","Delaware", "N
 
 strnow = string(Dates.now())
 strnow30 = strnow[1:4] * strnow[6:7] * strnow[9:10] * "T" * strnow[12:13] * strnow[15:16] * strnow[18:19]
+
+# extracting county indices with land area and population
+cind = findall((countyarea .> 0) .& (cpop .> 0));
+
+Makie.scatter(clon[cind],clat[cind], color = cconfirmed[cind] ./ countyarea[cind], markersize = log10.(countyarea[cind])/10)
+#Plots.scatter(clon[cind],clat[cind], color = cconfirmed[cind])
 
 for j = 1:length(states_of_interest)
     display(states_of_interest[j])
@@ -70,11 +76,6 @@ for j = 1:length(states_of_interest)
 
     tindstate = 1:length(covid19us[ind[1]].confirmed);
     tstate = covid19us[ind[1]].time[tind];
-
-    # extracting county indices with land area and population
-    cind = findall((countyarea .> 0) .& (cpop .> 0));
-    Makie.scatter(clon[cind],clat[cind], color = cpop[cind], markersize = log10.(countyarea[cind])/10)
-
 
     # Plot COVID19 data!
     l8out = @layout([a; b; c; d])
