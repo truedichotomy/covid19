@@ -1,11 +1,9 @@
 
-using Dates, Formatting, Makie, Plots
+using Dates, Formatting, Makie, Plots, ColorSchemes
 
-#include("load_covid19_data.jl")
+include("load_covid19_data.jl")
 
 states_of_interest = ["Virginia","North Carolina","West Virginia","Delaware", "New York", "New Jersey", "Massachusetts", "Texas","Florida","California","Michigan", "Ohio", "Washington", "Oregon", "Illinois", "Oklahoma", "Maryland", "District of Columbia", "Arizona","Georgia","South Carolina", "Mississippi", "Maine", "Pennsylvania", "Puerto Rico", "Colorado", "New Hampshire", "Iowa", "Vermont"]
-
-#states_of_interest = ["Illinois"]
 
 strnow = string(Dates.now())
 strnow30 = strnow[1:4] * strnow[6:7] * strnow[9:10] * "T" * strnow[12:13] * strnow[15:16] * strnow[18:19]
@@ -13,36 +11,76 @@ strnow30 = strnow[1:4] * strnow[6:7] * strnow[9:10] * "T" * strnow[12:13] * strn
 # extracting county indices with land area and population
 cind = findall((countyarea .> 0) .& (cpop .> 0));
 
-# plot a map of confirmed cases
-cval = cconfirmed[cind] ./ (countyarea[cind] .* cpop[cind]);
-cvalscl = log10.(cval).+16;
-sval = countyarea[cind] .* cpop[cind];
-log10sval = log10.(sval);
-svalscl = (log10sval .- minimum(log10sval)) ./ (maximum(log10sval) - minimum(log10sval)) 
+reasonable_resolution() = (1000, 800)
 
-scene = Makie.scatter(clon[cind],clat[cind], color = cvalscl, markersize = svalscl/1.5, limits = FRect(-125, 25, 60, 27))
+tind = 1:length(covid19us[1].confirmed);
+t = covid19us[1].time[tind];
+
+# plot a map of confirmed cases
+#cval = cconfirmed[cind] ./ (countyarea[cind] .* cpop[cind]);
+cval = cconfirmed[cind] ./ cpop[cind];
+log10cval = log10.(cval);
+#sval = countyarea[cind] .* cpop[cind];
+sval = cpop[cind];
+log10sval = log10.(sval);svalscl = (log10sval .- minimum(log10sval)) ./ (maximum(log10sval) - minimum(log10sval)) 
+
+scene = Makie.scatter(clon[cind],clat[cind], color = log10cval, markersize = log10sval/10, colormap = ColorSchemes.matter.colors, limits = FRect(-125, 25, 60, 27))
+text!(scene, "©Donglai Gong", textsize = 1, position = (-125, 26))
 axis = scene[Axis];
-axis.names.axisnames = ("Longitude", "Latitude")
-#AbstractPlotting.setlims!(scene, (-130,-60),dim = 1)
-Makie.save("/Users/gong/Desktop/covid19_confirmed_map.png", scene)
+axis.names.axisnames = ("Longitude", "Latitude");
+axis.names.title = (string(t[end])[1:10] * " Total Confirmed Cases per Capita (log)");
+#Makie.title(scene, string(t[end])[1:10] * " Total Confirmed Cases per Capita (log)"; textsize = 20, parent = Scene())
+Makie.save("/Volumes/GoogleDrive/My Drive/COVID19/" * "covid19_confirmed_map.png", scene)
 
 # plot a map of change in confirmed cases
-cdval = dcconfirmed[cind] ./ (countyarea[cind] .* cpop[cind]);
+#cdval = dcconfirmed[cind] ./ (countyarea[cind] .* cpop[cind]);
+cdval = dcconfirmed[cind] ./ cpop[cind];
 bind = findall(cdval .< 0);
-cdval[bind] .= 1e-20;
-#cdval = dcconfirmed[cind] ./ (countyarea[cind]);
-cdvalscl = log10.(cdval);
-sval = countyarea[cind] .* cpop[cind];
-#sval = countyarea[cind];
-#svalscl = sval ./ mean(sval);
+cdval[bind] .= 0;
+log10cdval = log10.(cdval);
+#sval = countyarea[cind] .* cpop[cind];
+sval = cpop[cind];
+log10sval = log10.(sval);
+
+scene = Makie.scatter(clon[cind],clat[cind], color = log10cdval, markersize = log10sval/10, colormap = ColorSchemes.matter.colors, limits = FRect(-125, 25, 60, 27))
+text!(scene, "©Donglai Gong", textsize = 1, position = (-125, 26))
+axis = scene[Axis];
+axis.names.axisnames = ("Longitude", "Latitude")
+axis.names.title = string(t[end])[1:10] * " New Weekly Cases per Capita (log)"
+Makie.save("/Volumes/GoogleDrive/My Drive/COVID19/" * "covid19_delta_confirmed_map.png", scene)
+
+# plot a map of death cases
+#cval = cconfirmed[cind] ./ (countyarea[cind] .* cpop[cind]);
+cval = cdeath[cind] ./ cpop[cind];
+log10cval = log10.(cval);
+#sval = countyarea[cind] .* cpop[cind];
+sval = cpop[cind];
+log10sval = log10.(sval);
+
+scene = Makie.scatter(clon[cind],clat[cind], color = log10cval, markersize = log10sval/10, colormap = ColorSchemes.matter.colors, limits = FRect(-125, 25, 60, 27))
+text!(scene, "©Donglai Gong", textsize = 1, position = (-125, 26))
+axis = scene[Axis];
+axis.names.axisnames = ("Longitude", "Latitude");
+axis.names.title = (string(t[end])[1:10] * " Total Death per Capita (log)");
+Makie.save("/Volumes/GoogleDrive/My Drive/COVID19/" * "covid19_dealth_map.png", scene)
+
+# plot a map of change in death cases
+#cdval = dcconfirmed[cind] ./ (countyarea[cind] .* cpop[cind]);
+cdval = dcdeath[cind] ./ cpop[cind];
+bind = findall(cdval .< 0);
+cdval[bind] .= 0;
+log10cdval = log10.(cdval);
+#sval = countyarea[cind] .* cpop[cind];
+sval = cpop[cind];
 log10sval = log10.(sval);
 log10svalscl = (log10sval .- minimum(log10sval)) ./ (maximum(log10sval) - minimum(log10sval)) 
 
-scene = Makie.scatter(clon[cind],clat[cind], color = cdvalscl, markersize = log10svalscl/1.5, limits = FRect(-125, 25, 60, 27))
+scene = Makie.scatter(clon[cind],clat[cind], color = log10cdval, markersize = log10sval/10, colormap = ColorSchemes.matter.colors, limits = FRect(-125, 25, 60, 27))
+text!(scene, "©Donglai Gong", textsize = 1, position = (-125, 26))
 axis = scene[Axis];
 axis.names.axisnames = ("Longitude", "Latitude")
-#AbstractPlotting.setlims!(scene, (-130,-60),dim = 1)
-Makie.save("/Users/gong/Desktop/covid19_delta_confirmed_map.png", scene)
+axis.names.title = string(t[end])[1:10] * " New Weekly Deaths per Capita (log)"
+Makie.save("/Volumes/GoogleDrive/My Drive/COVID19/" * "covid19_delta_dealth_map.png", scene)
 
 
 for j = 1:length(states_of_interest)
@@ -152,7 +190,7 @@ for j = 1:length(states_of_interest)
 
     covid19plot = Plots.plot(pCOVID19usa, dCOVID19usa, pCOVID19state, dCOVID19state, layout = l8out,  xrotation=30, size=(800,900), xticks = t[1:7:end], legend=:false);
 
-    #Plots.savefig(covid19plot, "/Volumes/GoogleDrive/My Drive/COVID19/" * "covid19_" * filter(x -> !isspace(x), state_of_interest) * "_" * strnow30[1:8] * ".html")
+    Plots.savefig(covid19plot, "/Volumes/GoogleDrive/My Drive/COVID19/" * "covid19_" * filter(x -> !isspace(x), state_of_interest) * "_" * strnow30[1:8] * ".html")
     #Plots.savefig(covid19plot, "~/Dropbox/COVID19/" * "covid19_" * filter(x -> !isspace(x), state_of_interest) * "_" * strnow30[1:8] * ".html")
     Plots.savefig(covid19plot, "~/Box/Projects/COVID19/" * "covid19_" * filter(x -> !isspace(x), state_of_interest) * "_" * strnow30[1:8] * ".html")
     #gui(covid19plot)
