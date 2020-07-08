@@ -28,6 +28,13 @@ Pkg.add("Distances")
 Pkg.add("DifferentialEquations")
 Pkg.add("BenchmarkTools")
 Pkg.add("DelimitedFiles")
+Pkg.add("Makie")
+Pkg.add("GeoMakie")
+Pkg.add("GeoJSON")
+Pkg.add("ColorSchemes")
+Pkg.add("PlotlyJS")
+Pkg.add("Shapefile")
+Pkg.add("Genie")
 
 #;conda install matplotlib
 #;conda install -c conda-forge cmocean gsw
