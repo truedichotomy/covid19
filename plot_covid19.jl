@@ -13,8 +13,37 @@ strnow30 = strnow[1:4] * strnow[6:7] * strnow[9:10] * "T" * strnow[12:13] * strn
 # extracting county indices with land area and population
 cind = findall((countyarea .> 0) .& (cpop .> 0));
 
-Makie.scatter(clon[cind],clat[cind], color = cconfirmed[cind] ./ countyarea[cind], markersize = log10.(countyarea[cind])/10)
-#Plots.scatter(clon[cind],clat[cind], color = cconfirmed[cind])
+# plot a map of confirmed cases
+cval = cconfirmed[cind] ./ (countyarea[cind] .* cpop[cind]);
+cvalscl = log10.(cval).+16;
+sval = countyarea[cind] .* cpop[cind];
+log10sval = log10.(sval);
+svalscl = (log10sval .- minimum(log10sval)) ./ (maximum(log10sval) - minimum(log10sval)) 
+
+scene = Makie.scatter(clon[cind],clat[cind], color = cvalscl, markersize = svalscl/1.5, limits = FRect(-125, 25, 60, 27))
+axis = scene[Axis];
+axis.names.axisnames = ("Longitude", "Latitude")
+#AbstractPlotting.setlims!(scene, (-130,-60),dim = 1)
+Makie.save("/Users/gong/Desktop/covid19_confirmed_map.png", scene)
+
+# plot a map of change in confirmed cases
+cdval = dcconfirmed[cind] ./ (countyarea[cind] .* cpop[cind]);
+bind = findall(cdval .< 0);
+cdval[bind] .= 1e-20;
+#cdval = dcconfirmed[cind] ./ (countyarea[cind]);
+cdvalscl = log10.(cdval);
+sval = countyarea[cind] .* cpop[cind];
+#sval = countyarea[cind];
+#svalscl = sval ./ mean(sval);
+log10sval = log10.(sval);
+log10svalscl = (log10sval .- minimum(log10sval)) ./ (maximum(log10sval) - minimum(log10sval)) 
+
+scene = Makie.scatter(clon[cind],clat[cind], color = cdvalscl, markersize = log10svalscl/1.5, limits = FRect(-125, 25, 60, 27))
+axis = scene[Axis];
+axis.names.axisnames = ("Longitude", "Latitude")
+#AbstractPlotting.setlims!(scene, (-130,-60),dim = 1)
+Makie.save("/Users/gong/Desktop/covid19_delta_confirmed_map.png", scene)
+
 
 for j = 1:length(states_of_interest)
     display(states_of_interest[j])
@@ -123,9 +152,9 @@ for j = 1:length(states_of_interest)
 
     covid19plot = Plots.plot(pCOVID19usa, dCOVID19usa, pCOVID19state, dCOVID19state, layout = l8out,  xrotation=30, size=(800,900), xticks = t[1:7:end], legend=:false);
 
-    Plots.savefig(covid19plot, "/Volumes/GoogleDrive/My Drive/COVID19/" * "covid19_" * filter(x -> !isspace(x), state_of_interest) * "_" * strnow30[1:8] * ".html")
+    #Plots.savefig(covid19plot, "/Volumes/GoogleDrive/My Drive/COVID19/" * "covid19_" * filter(x -> !isspace(x), state_of_interest) * "_" * strnow30[1:8] * ".html")
     #Plots.savefig(covid19plot, "~/Dropbox/COVID19/" * "covid19_" * filter(x -> !isspace(x), state_of_interest) * "_" * strnow30[1:8] * ".html")
-    #Plots.savefig(covid19plot, "~/Box/Projects/COVID19/" * "covid19_" * filter(x -> !isspace(x), state_of_interest) * "_" * strnow30[1:8] * ".html")
+    Plots.savefig(covid19plot, "~/Box/Projects/COVID19/" * "covid19_" * filter(x -> !isspace(x), state_of_interest) * "_" * strnow30[1:8] * ".html")
     #gui(covid19plot)
     #sleep(1.0)
 end
