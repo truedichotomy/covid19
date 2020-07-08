@@ -71,7 +71,7 @@ function pmapconfirmed()
         countrycolor="rgb(255,255,255)", 
         );
 
-    title = attr(text = "Total Confirmed Cases per Capita (log10)", yref = "paper", y=0.9)
+    title = attr(text = "Cumulative Confirmed Cases per Capita " * string(t[end])[1:10] * " (log10)", yref = "paper", y=0.9)
 
     layout = Layout(; title=title, showlegend=false, geo=geo)
     plot(pmapsg, layout)
@@ -99,7 +99,7 @@ function pmapdconfirmed()
         countrycolor="rgb(255,255,255)", 
         );
 
-    title = attr(text = "Weekly Cases per Capita (log10)", yref = "paper", y=0.9)
+    title = attr(text = "Weekly New Cases per Capita " * string(t[end])[1:10] * " (log10)", yref = "paper", y=0.9)
 
     layout = Layout(; title=title, showlegend=false, geo=geo)
     plot(pmapsg, layout)
@@ -127,7 +127,7 @@ function pmapdeath()
         countrycolor="rgb(255,255,255)", 
         );
 
-    title = attr(text = "Total Death per Capita (log10)", yref = "paper", y=0.9)
+    title = attr(text = "Cumulative Death per Capita " * string(t[end])[1:10] * " (log10)", yref = "paper", y=0.9)
 
     layout = Layout(; title=title, showlegend=false, geo=geo)
     plot(pmapsg, layout)
@@ -155,14 +155,17 @@ function pmapddeath()
         countrycolor="rgb(255,255,255)", 
         );
 
-    title = attr(text = "Weekly Death per Capita (log10)", yref = "paper", y=0.9)
+    title = attr(text = "Weekly New Death per Capita " * string(t[end])[1:10] * " (log10)", yref = "paper", y=0.9)
 
     layout = Layout(; title=title, showlegend=false, geo=geo)
     plot(pmapsg, layout)
 end
 
-PlotlyJS.savefig(pmapconfirmed(), "/Volumes/GoogleDrive/My Drive/COVID19/" * "covid19map_confirmed.html"; scale=1);
-PlotlyJS.savefig(pmapdeath(), "/Volumes/GoogleDrive/My Drive/COVID19/" * "covid19map_death.html", scale = 1);
-PlotlyJS.savefig(pmapdconfirmed(), "/Volumes/GoogleDrive/My Drive/COVID19/" * "covid19map_delta_confirmed.html", scale=1);
-PlotlyJS.savefig(pmapddeath(), "/Volumes/GoogleDrive/My Drive/COVID19/" * "covid19map_delta_death.html", scale=1);
+#figoutdir = "/Volumes/GoogleDrive/My Drive/COVID19/";
+figoutdir = "/Users/gong/GitHub/covid19_public/maps/";
+
+PlotlyJS.savefig(pmapconfirmed(), figoutdir * "covid19map_confirmed.html"; scale=1);
+PlotlyJS.savefig(pmapdeath(), figoutdir * "covid19map_death.html", scale = 1);
+PlotlyJS.savefig(pmapdconfirmed(), figoutdir * "covid19map_delta_confirmed.html", scale=1);
+PlotlyJS.savefig(pmapddeath(), figoutdir * "covid19map_delta_death.html", scale=1);
 #end
