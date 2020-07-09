@@ -161,8 +161,8 @@ function pmapddeath()
         hovertext=
             "County: " .* county[cind] .* ", " .* state[cind] .* "<br>" .*
             "Population: " .* string.(df[:POPULATION]) .* "<br>" .* 
-            "Daily New Cases (actual): " .* string.(df[:dDEATH]) .* "<br>" .* 
-            "Daily New Cases per 100k: " .* string.(round.(df[:dDEATHpc], digits=2)), 
+            "Daily New Deaths (actual): " .* string.(df[:dDEATH]) .* "<br>" .* 
+            "Daily New Deaths per 100k: " .* string.(round.(df[:dDEATHpc], digits=2)), 
         );
 
     geo = attr(scope="usa", 
@@ -175,7 +175,7 @@ function pmapddeath()
         countrycolor="rgb(255,255,255)", 
         );
 
-    title = attr(text = "Daily New Death per 100k " * string(t[end])[1:10] * " (log10, 7 day avg.)", yref = "paper", y=1.0)
+    title = attr(text = "Daily New Deaths per 100k " * string(t[end])[1:10] * " (log10, 7 day avg.)", yref = "paper", y=1.0)
 
     layout = Layout(; title=title, showlegend=false, geo=geo)
     plot(pmapsg, layout)
