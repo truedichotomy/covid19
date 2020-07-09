@@ -1,7 +1,7 @@
 #module map_covid19
 using Dates, DataFrames, ColorSchemes, PlotlyJS
 
-#include("load_covid19_data.jl")
+include("load_covid19_data.jl")
 
 # extracting county indices with land area and population
 cind = findall((countyarea .> 0) .& (cpop .> 0));
@@ -162,7 +162,7 @@ function pmapddeath()
             "County: " .* county[cind] .* ", " .* state[cind] .* "<br>" .*
             "Population: " .* string.(df[:POPULATION]) .* "<br>" .* 
             "Cases (Actual): " .* string.(df[:dDEATH]) .* "<br>" .* 
-            "Cases per 100k: " .* string.(round.(df[:dDEATHpc], digits=2)),
+            "Cases per 100k: " .* string.(round.(df[:dDEATHpc], digits=2)), 
         );
 
     geo = attr(scope="usa", 
