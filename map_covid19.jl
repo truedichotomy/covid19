@@ -31,29 +31,30 @@ df = DataFrame(LON = clon[cind],
     LAT = clat[cind], 
     POPULATION = cpop[cind], 
     log10POPULATION = log10.(cpop[cind]), 
+    logPOPULATION = log.(cpop[cind]), 
 
     CONFIRMEDpc = cconfirmed[cind] ./ cpop[cind], 
     CONFIRMED = cconfirmed[cind],
-    log10CONFIRMEDpc = log10.(cconfirmed[cind] ./ cpop[cind]),
+    log10CONFIRMEDpc = log10.(cconfirmed[cind] ./ cpop[cind] .* 1e5),
 
     dCONFIRMEDpc = dCONFIRMEDpc, 
     dCONFIRMED = dcconfirmed[cind],
-    log10dCONFIRMEDpc = log10.(dCONFIRMEDpc),
+    log10dCONFIRMEDpc = log10.(dCONFIRMEDpc .* 1e5),
 
     DEATHpc = cdeath[cind] ./ cpop[cind],
     DEATH = cdeath[cind],
-    log10DEATHpc = log10.(cdeath[cind] ./ cpop[cind]),
+    log10DEATHpc = log10.(cdeath[cind] ./ cpop[cind] .* 1e5),
 
     dDEATHpc = dDEATHpc,
     dDEATH = dcdeath[cind],
-    log10dDEATHpc = log10.(dDEATHpc),
+    log10dDEATHpc = log10.(dDEATHpc .* 1e5),
     );
 
 function pmapconfirmed()
     pmapsg = PlotlyJS.scattergeo(; locationmode="USA-states", 
         lat = df[:LAT], 
         lon = df[:LON], 
-        marker_size=df[:log10POPULATION]*1.5, 
+        marker_size=df[:logPOPULATION], 
         marker_color=df[:log10CONFIRMEDpc],
         marker_colorscale="Jet",
         marker_showscale = true,
@@ -71,7 +72,7 @@ function pmapconfirmed()
         countrycolor="rgb(255,255,255)", 
         );
 
-    title = attr(text = "Cumulative Confirmed Cases per Capita " * string(t[end])[1:10] * " (log10)", yref = "paper", y=0.9)
+    title = attr(text = "Cumulative Confirmed Cases per 100k " * string(t[end])[1:10] * " (log10)", yref = "paper", y=0.9)
 
     layout = Layout(; title=title, showlegend=false, geo=geo)
     plot(pmapsg, layout)
@@ -81,7 +82,7 @@ function pmapdconfirmed()
     pmapsg = PlotlyJS.scattergeo(; locationmode="USA-states", 
         lat = df[:LAT], 
         lon = df[:LON], 
-        marker_size=df[:log10POPULATION]*1.5, 
+        marker_size=df[:logPOPULATION], 
         marker_color=df[:log10dCONFIRMEDpc],
         marker_colorscale="Jet",
         marker_showscale = true,
@@ -99,7 +100,7 @@ function pmapdconfirmed()
         countrycolor="rgb(255,255,255)", 
         );
 
-    title = attr(text = "Weekly New Cases per Capita " * string(t[end])[1:10] * " (log10)", yref = "paper", y=0.9)
+    title = attr(text = "Daily New Cases per 100k " * string(t[end])[1:10] * " (log10, 7 day avg.)", yref = "paper", y=0.9)
 
     layout = Layout(; title=title, showlegend=false, geo=geo)
     plot(pmapsg, layout)
@@ -109,7 +110,7 @@ function pmapdeath()
     pmapsg = PlotlyJS.scattergeo(; locationmode="USA-states", 
         lat = df[:LAT], 
         lon = df[:LON], 
-        marker_size=df[:log10POPULATION]*1.5, 
+        marker_size=df[:logPOPULATION], 
         marker_color=df[:log10DEATHpc],
         marker_colorscale="Jet",
         marker_showscale = true,
@@ -127,7 +128,7 @@ function pmapdeath()
         countrycolor="rgb(255,255,255)", 
         );
 
-    title = attr(text = "Cumulative Death per Capita " * string(t[end])[1:10] * " (log10)", yref = "paper", y=0.9)
+    title = attr(text = "Cumulative Death per 100k " * string(t[end])[1:10] * " (log10)", yref = "paper", y=0.9)
 
     layout = Layout(; title=title, showlegend=false, geo=geo)
     plot(pmapsg, layout)
@@ -137,7 +138,7 @@ function pmapddeath()
     pmapsg = PlotlyJS.scattergeo(; locationmode="USA-states", 
         lat = df[:LAT], 
         lon = df[:LON], 
-        marker_size=df[:log10POPULATION]*1.5, 
+        marker_size=df[:logPOPULATION], 
         marker_color=df[:log10dDEATHpc],
         marker_colorscale="Jet",
         marker_showscale = true,
@@ -155,7 +156,7 @@ function pmapddeath()
         countrycolor="rgb(255,255,255)", 
         );
 
-    title = attr(text = "Weekly New Death per Capita " * string(t[end])[1:10] * " (log10)", yref = "paper", y=0.9)
+    title = attr(text = "Daily New Death per 100k " * string(t[end])[1:10] * " (log10, 7 day avg.)", yref = "paper", y=0.9)
 
     layout = Layout(; title=title, showlegend=false, geo=geo)
     plot(pmapsg, layout)
