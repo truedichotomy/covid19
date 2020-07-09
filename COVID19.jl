@@ -30,9 +30,16 @@ mutable struct COVID19data
     #recovered::Array{Int}
 end
 
-function load_data_from_web(datadir = ENV["HOME"] * "/Box/Data/COVID19/")
-    #datadir = ENV["HOME"] * "/Box/Data/COVID19/";
+mutable struct COVID19nyt
+    time::Array{Date}
+    state::Array{AbstractString}
+    county::Array{AbstractString}
+    fips::Array{Int}
+    cases::Array{Int}
+    death::Array{Int}
+end
 
+function load_data_from_nyt(datadir = ENV["HOME"] * "/Box/Data/COVID19/")
     # data source: https://github.com/nytimes/covid-19-data
     covid19nyt_url_county = "https://github.com/nytimes/covid-19-data/raw/master/us-counties.csv";
     covid19nyt_url_state = "https://github.com/nytimes/covid-19-data/raw/master/us-states.csv";
@@ -42,6 +49,12 @@ function load_data_from_web(datadir = ENV["HOME"] * "/Box/Data/COVID19/")
     download(covid19nyt_url_county, covid19nyt_path_county);
     download(covid19nyt_url_state, covid19nyt_path_state);
 
+    covid19nyt_county = DataFrame!(CSV.File(covid19nyt_path_county));
+    covid19nyt_state = DataFrame!(CSV.File(covid19nyt_path_state));
+    return covid19nyt_state, covid19nyt_county;
+end
+
+function load_data_from_web(datadir = ENV["HOME"] * "/Box/Data/COVID19/")
     covid19url_confirmed_US = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv"
     covid19url_confirmed_global = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"
     covid19url_death_US = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv"
@@ -85,7 +98,8 @@ end
 
 #function load_covid19(confirmed_US::Any,death_US::Any,confirmed_global::Any,death_global::Any,fipstable::Any)
 function load_data(datadir = ENV["HOME"] * "/Box/Data/COVID19/")
-    (confirmed_US, death_US, confirmed_global, death_global, recovered_global, fipstable) = load_data_from_web(datadir)
+    (confirmed_US, death_US, confirmed_global, death_global, recovered_global, ipstable) = load_data_from_web(datadir)
+    (covid19nyt_state, covid19nyt_county) = load_data_from_nyt(datadir);
 
     # defining the time
     t0 = Date("2020-01-22")
@@ -121,7 +135,7 @@ function load_data(datadir = ENV["HOME"] * "/Box/Data/COVID19/")
         covid19us = push!(covid19us, COVID19data(countryUS[i], province_stateUS[i], county[i], key[i], fips[i], latus[i], lonus[i], death_US[i,12], t, confirmed_US[i,12:end], death_US[i,12:end]));
     end
 
-    return covid19global, covid19us
+    return covid19global, covid19us, covid19nyt_state, covid19nyt_county
 end
 
 end

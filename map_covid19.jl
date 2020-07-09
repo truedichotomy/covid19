@@ -19,11 +19,11 @@ log10cval = log10.(cval);
 sval = cpop[cind];
 log10sval = log10.(sval);
 
-dCONFIRMEDpc = dcconfirmed[cind] ./ cpop[cind];
+dCONFIRMEDpc = dcconfirmed[cind] ./ cpop[cind] .* 1e5;
 bind = findall(dCONFIRMEDpc .<= 0);
 dCONFIRMEDpc[bind] .= NaN;
 
-dDEATHpc = dcdeath[cind] ./ cpop[cind];
+dDEATHpc = dcdeath[cind] ./ cpop[cind] .* 1e5;
 bind = findall(dDEATHpc .<= 0);
 dDEATHpc[bind] .= NaN;
 
@@ -33,33 +33,37 @@ df = DataFrame(LON = clon[cind],
     log10POPULATION = log10.(cpop[cind]), 
     logPOPULATION = log.(cpop[cind]), 
 
-    CONFIRMEDpc = cconfirmed[cind] ./ cpop[cind], 
+    CONFIRMEDpc = cconfirmed[cind] ./ cpop[cind] .* 1e5, 
     CONFIRMED = cconfirmed[cind],
     log10CONFIRMEDpc = log10.(cconfirmed[cind] ./ cpop[cind] .* 1e5),
 
     dCONFIRMEDpc = dCONFIRMEDpc, 
     dCONFIRMED = dcconfirmed[cind],
-    log10dCONFIRMEDpc = log10.(dCONFIRMEDpc .* 1e5),
+    log10dCONFIRMEDpc = log10.(dCONFIRMEDpc),
 
-    DEATHpc = cdeath[cind] ./ cpop[cind],
+    DEATHpc = cdeath[cind] ./ cpop[cind] .* 1e5,
     DEATH = cdeath[cind],
     log10DEATHpc = log10.(cdeath[cind] ./ cpop[cind] .* 1e5),
 
     dDEATHpc = dDEATHpc,
     dDEATH = dcdeath[cind],
-    log10dDEATHpc = log10.(dDEATHpc .* 1e5),
+    log10dDEATHpc = log10.(dDEATHpc),
     );
 
 function pmapconfirmed()
     pmapsg = PlotlyJS.scattergeo(; locationmode="USA-states", 
         lat = df[:LAT], 
         lon = df[:LON], 
-        marker_size=df[:logPOPULATION], 
+        marker_size=df[:logPOPULATION]/1.2, 
         marker_color=df[:log10CONFIRMEDpc],
         marker_colorscale="Jet",
         marker_showscale = true,
         hoverinfo="text",
-        hovertext=string.(df[:CONFIRMED]) .* " " .* county[cind],
+        hovertext=
+            "County: " .* county[cind] .* ", " .* state[cind] .* "<br>" .*
+            "Population: " .* string.(df[:POPULATION]) .* "<br>" .* 
+            "Cases (Actual): " .* string.(df[:CONFIRMED]) .* "<br>" .* 
+            "Cases per 100k: " .* string.(round.(df[:CONFIRMEDpc], digits=2)),
         );
 
     geo = attr(scope="usa", 
@@ -82,12 +86,17 @@ function pmapdconfirmed()
     pmapsg = PlotlyJS.scattergeo(; locationmode="USA-states", 
         lat = df[:LAT], 
         lon = df[:LON], 
-        marker_size=df[:logPOPULATION], 
+        marker_size=df[:logPOPULATION]/1.2, 
         marker_color=df[:log10dCONFIRMEDpc],
         marker_colorscale="Jet",
         marker_showscale = true,
         hoverinfo="text",
-        hovertext=string.(df[:dCONFIRMED]) .* " " .* county[cind],
+        #hovertext=string.(df[:dCONFIRMED]) .* " " .* county[cind],
+        hovertext=
+            "County: " .* county[cind] .* ", " .* state[cind] .* "<br>" .*
+            "Population: " .* string.(df[:POPULATION]) .* "<br>" .* 
+            "Cases (Actual): " .* string.(df[:dCONFIRMED]) .* "<br>" .* 
+            "Cases per 100k: " .* string.(round.(df[:dCONFIRMEDpc], digits=2)),
         );
 
     geo = attr(scope="usa", 
@@ -110,12 +119,17 @@ function pmapdeath()
     pmapsg = PlotlyJS.scattergeo(; locationmode="USA-states", 
         lat = df[:LAT], 
         lon = df[:LON], 
-        marker_size=df[:logPOPULATION], 
+        marker_size=df[:logPOPULATION]/1.2, 
         marker_color=df[:log10DEATHpc],
         marker_colorscale="Jet",
         marker_showscale = true,
         hoverinfo="text",
-        hovertext=string.(df[:DEATH]) .* " " .* county[cind],
+        #hovertext=string.(df[:DEATH]) .* " " .* county[cind],
+        hovertext=
+            "County: " .* county[cind] .* ", " .* state[cind] .* "<br>" .*
+            "Population: " .* string.(df[:POPULATION]) .* "<br>" .* 
+            "Cases (Actual): " .* string.(df[:DEATH]) .* "<br>" .* 
+            "Cases per 100k: " .* string.(round.(df[:DEATHpc], digits=2)),
         );
 
     geo = attr(scope="usa", 
@@ -138,12 +152,17 @@ function pmapddeath()
     pmapsg = PlotlyJS.scattergeo(; locationmode="USA-states", 
         lat = df[:LAT], 
         lon = df[:LON], 
-        marker_size=df[:logPOPULATION], 
+        marker_size=df[:logPOPULATION]/1.2, 
         marker_color=df[:log10dDEATHpc],
         marker_colorscale="Jet",
         marker_showscale = true,
         hoverinfo="text",
-        hovertext=string.(df[:dDEATH]) .* " " .* county[cind],
+        #hovertext=string.(df[:dDEATH]) .* " " .* county[cind],
+        hovertext=
+            "County: " .* county[cind] .* ", " .* state[cind] .* "<br>" .*
+            "Population: " .* string.(df[:POPULATION]) .* "<br>" .* 
+            "Cases (Actual): " .* string.(df[:dDEATH]) .* "<br>" .* 
+            "Cases per 100k: " .* string.(round.(df[:dDEATHpc], digits=2)),
         );
 
     geo = attr(scope="usa", 
@@ -165,8 +184,8 @@ end
 #figoutdir = "/Volumes/GoogleDrive/My Drive/COVID19/";
 figoutdir = "/Users/gong/GitHub/covid19_public/maps/";
 
-PlotlyJS.savefig(pmapconfirmed(), figoutdir * "covid19map_confirmed.html"; scale=1);
-PlotlyJS.savefig(pmapdeath(), figoutdir * "covid19map_death.html", scale = 1);
-PlotlyJS.savefig(pmapdconfirmed(), figoutdir * "covid19map_delta_confirmed.html", scale=1);
-PlotlyJS.savefig(pmapddeath(), figoutdir * "covid19map_delta_death.html", scale=1);
+PlotlyJS.savefig(pmapconfirmed(), figoutdir * "covid19map_confirmed.html");
+PlotlyJS.savefig(pmapdeath(), figoutdir * "covid19map_death.html");
+PlotlyJS.savefig(pmapdconfirmed(), figoutdir * "covid19map_delta_confirmed.html");
+PlotlyJS.savefig(pmapddeath(), figoutdir * "covid19map_delta_death.html");
 #end
