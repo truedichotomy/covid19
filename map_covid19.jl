@@ -62,7 +62,7 @@ function pmapconfirmed()
         hovertext=
             "County: " .* county[cind] .* ", " .* state[cind] .* "<br>" .*
             "Population: " .* string.(df[:POPULATION]) .* "<br>" .* 
-            "Cases (Actual): " .* string.(df[:CONFIRMED]) .* "<br>" .* 
+            "Cases (actual): " .* string.(df[:CONFIRMED]) .* "<br>" .* 
             "Cases per 100k: " .* string.(round.(df[:CONFIRMEDpc], digits=2)),
         );
 
@@ -76,7 +76,7 @@ function pmapconfirmed()
         countrycolor="rgb(255,255,255)", 
         );
 
-    title = attr(text = "Cumulative Confirmed Cases per 100k " * string(t[end])[1:10] * " (log10)", yref = "paper", y=0.9)
+    title = attr(text = "Cumulative Confirmed Cases per 100k " * string(t[end])[1:10] * " (log10)", yref = "paper", y=1.0)
 
     layout = Layout(; title=title, showlegend=false, geo=geo)
     plot(pmapsg, layout)
@@ -95,8 +95,8 @@ function pmapdconfirmed()
         hovertext=
             "County: " .* county[cind] .* ", " .* state[cind] .* "<br>" .*
             "Population: " .* string.(df[:POPULATION]) .* "<br>" .* 
-            "Cases (Actual): " .* string.(df[:dCONFIRMED]) .* "<br>" .* 
-            "Cases per 100k: " .* string.(round.(df[:dCONFIRMEDpc], digits=2)),
+            "Daily New Cases (actual): " .* string.(df[:dCONFIRMED]) .* "<br>" .* 
+            "Daily New Cases per 100k: " .* string.(round.(df[:dCONFIRMEDpc], digits=2)),
         );
 
     geo = attr(scope="usa", 
@@ -109,7 +109,7 @@ function pmapdconfirmed()
         countrycolor="rgb(255,255,255)", 
         );
 
-    title = attr(text = "Daily New Cases per 100k " * string(t[end])[1:10] * " (log10, 7 day avg.)", yref = "paper", y=0.9)
+    title = attr(text = "Daily New Cases per 100k " * string(t[end])[1:10] * " (log10, 7 day avg.)", yref = "paper", y=1.0)
 
     layout = Layout(; title=title, showlegend=false, geo=geo)
     plot(pmapsg, layout)
@@ -128,7 +128,7 @@ function pmapdeath()
         hovertext=
             "County: " .* county[cind] .* ", " .* state[cind] .* "<br>" .*
             "Population: " .* string.(df[:POPULATION]) .* "<br>" .* 
-            "Cases (Actual): " .* string.(df[:DEATH]) .* "<br>" .* 
+            "Cases (actual): " .* string.(df[:DEATH]) .* "<br>" .* 
             "Cases per 100k: " .* string.(round.(df[:DEATHpc], digits=2)),
         );
 
@@ -142,7 +142,7 @@ function pmapdeath()
         countrycolor="rgb(255,255,255)", 
         );
 
-    title = attr(text = "Cumulative Death per 100k " * string(t[end])[1:10] * " (log10)", yref = "paper", y=0.9)
+    title = attr(text = "Cumulative Death per 100k " * string(t[end])[1:10] * " (log10)", yref = "paper", y=1.0)
 
     layout = Layout(; title=title, showlegend=false, geo=geo)
     plot(pmapsg, layout)
@@ -161,8 +161,8 @@ function pmapddeath()
         hovertext=
             "County: " .* county[cind] .* ", " .* state[cind] .* "<br>" .*
             "Population: " .* string.(df[:POPULATION]) .* "<br>" .* 
-            "Cases (Actual): " .* string.(df[:dDEATH]) .* "<br>" .* 
-            "Cases per 100k: " .* string.(round.(df[:dDEATHpc], digits=2)), 
+            "Daily New Cases (actual): " .* string.(df[:dDEATH]) .* "<br>" .* 
+            "Daily New Cases per 100k: " .* string.(round.(df[:dDEATHpc], digits=2)), 
         );
 
     geo = attr(scope="usa", 
@@ -175,7 +175,7 @@ function pmapddeath()
         countrycolor="rgb(255,255,255)", 
         );
 
-    title = attr(text = "Daily New Death per 100k " * string(t[end])[1:10] * " (log10, 7 day avg.)", yref = "paper", y=0.9)
+    title = attr(text = "Daily New Death per 100k " * string(t[end])[1:10] * " (log10, 7 day avg.)", yref = "paper", y=1.0)
 
     layout = Layout(; title=title, showlegend=false, geo=geo)
     plot(pmapsg, layout)
@@ -184,8 +184,10 @@ end
 #figoutdir = "/Volumes/GoogleDrive/My Drive/COVID19/";
 figoutdir = "/Users/gong/GitHub/covid19_public/maps/";
 
-PlotlyJS.savefig(pmapconfirmed(), figoutdir * "covid19map_confirmed.html");
-PlotlyJS.savefig(pmapdeath(), figoutdir * "covid19map_death.html");
-PlotlyJS.savefig(pmapdconfirmed(), figoutdir * "covid19map_delta_confirmed.html");
-PlotlyJS.savefig(pmapddeath(), figoutdir * "covid19map_delta_death.html");
+#PlotlyJS._js_path = "https://cdn.plot.ly/plotly-latest.min.js";
+
+PlotlyJS.savehtml(pmapconfirmed(), figoutdir * "covid19map_confirmed.html", :remote);
+PlotlyJS.savehtml(pmapdeath(), figoutdir * "covid19map_death.html", :remote);
+PlotlyJS.savehtml(pmapdconfirmed(), figoutdir * "covid19map_delta_confirmed.html", :remote);
+PlotlyJS.savehtml(pmapddeath(), figoutdir * "covid19map_delta_death.html", :remote);
 #end

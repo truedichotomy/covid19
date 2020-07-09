@@ -1,7 +1,7 @@
 
 using Dates, Formatting, Plots, ColorSchemes, Plotly, WebIO, DataFrames
 plotly()
-using Makie
+#using Makie
 
 include("load_covid19_data.jl")
 
@@ -128,7 +128,10 @@ for j = 1:length(states_of_interest)
     ind = findall(state .== state_of_interest);
     #ind = findall((state .== state_of_interest) .& (county .!= "Unassigned"));
     countyconfirmed = [Float64.(covid19us[ind[i]].confirmed) for i in 1:length(ind)];
+    population = [Float64.(covid19us[ind[i]].population) for i in 1:length(ind)];
     dcountyconfirmed = Array{Any}(undef, length(countyconfirmed));
+    dcountyconfirmedpc = Array{Any}(undef, length(countyconfirmed));
+
     statetotalconfirmed = Float64.(deepcopy(countyconfirmed[1]));
     dstatetotalconfirmed = Array{Any}(undef, length(statetotalconfirmed)-1);
     for ci = 2:length(countyconfirmed)
@@ -139,6 +142,7 @@ for j = 1:length(states_of_interest)
     dstatetotalconfirmed = statetotalconfirmed[2:end] - statetotalconfirmed[1:end-1];
     for ci = 1:length(countyconfirmed)
         dcountyconfirmed[ci] = countyconfirmed[ci][2:end] - countyconfirmed[ci][1:end-1];
+        dcountyconfirmedpc[ci] = (countyconfirmed[ci][2:end] - countyconfirmed[ci][1:end-1]) ./ population[ci] .* 1.0e5;
     end
 
     ## turning 0 to NaN
@@ -151,7 +155,7 @@ for j = 1:length(states_of_interest)
     tstate = covid19us[ind[1]].time[tind];
 
     # Plot COVID19 data!
-    l8out = @layout([a; b; c; d])
+    l8out = @layout([a; b; c; d; e])
 
     totalconfirmed_strfmt = Formatting.format.(totalconfirmed[end], commas=true);
     pCOVID19usa = Plots.plot(t, totalconfirmed, label="USA Total")
@@ -194,7 +198,17 @@ for j = 1:length(states_of_interest)
     end
     Plots.plot(dCOVID19state, framestyle=:box, title=state[ind[1]] * " - Daily New COVID-19 Cases " * "on " * string(t[end])[1:10] * ":  " * dstatetotalconfirmed_strfmt, marker = (2, :circle, 2),  markerstrokewidth = 0)
 
-    covid19plot = Plots.plot(pCOVID19usa, dCOVID19usa, pCOVID19state, dCOVID19state, layout = l8out,  xrotation=30, size=(800,900), xticks = t[1:7:end], legend=:false);
+    dstatetotalconfirmedpc_strfmt = Formatting.format.(dstatetotalconfirmed[end] / sum(population) * 1.0e5, commas=true);
+    dCOVID19statepc = Plots.plot(tstate[2:end], dstatetotalconfirmed / sum(population) * 1.0e5, label=state[ind[1]] * " Daily Cases")
+    for i = 1:length(ind)
+        confirmi = dcountyconfirmedpc[i];
+        ind0 = findall(confirmi .== 0);
+        confirmi[ind0] .= NaN;
+        Plots.plot!(tstate[2:end], confirmi, label=county[ind[i]])
+    end
+    Plots.plot(dCOVID19statepc, framestyle=:box, title=state[ind[1]] * " - Daily New COVID-19 Cases per 100k " * "on " * string(t[end])[1:10] * ":  " * dstatetotalconfirmedpc_strfmt, marker = (2, :circle, 2),  markerstrokewidth = 0)
+
+    covid19plot = Plots.plot(pCOVID19usa, dCOVID19usa, pCOVID19state, dCOVID19state, dCOVID19statepc, layout = l8out,  xrotation=30, size=(800,900), xticks = t[1:7:end], legend=:false);
 
     figoutdir = "/Users/gong/GitHub/covid19_public/timeseries/";
     #Plots.savefig(covid19plot, "/Volumes/GoogleDrive/My Drive/COVID19/" * "covid19_" * filter(x -> !isspace(x), state_of_interest) * "_" * strnow30[1:8] * ".html")
