@@ -102,7 +102,7 @@ function pmapconfirmed()
     title = attr(text = "Cumulative Confirmed Cases per 100k " * string(t[end])[1:10] * " (log10)", yref = "paper", y=1.0)
 
     layout = Layout(; title=title, showlegend=false, geo=geo)
-    plot(pmapsg, layout)
+    PlotlyJS.plot(pmapsg, layout)
 end
 
 function pmapdconfirmed()
@@ -141,7 +141,7 @@ function pmapdconfirmed()
     title = attr(text = "Daily New Cases per 100k " * string(t[end])[1:10] * " (log10, 7 day avg.)", yref = "paper", y=1.0)
 
     layout = Layout(; title=title, showlegend=false, geo=geo)
-    plot(pmapsg, layout)
+    PlotlyJS.plot(pmapsg, layout)
 end
 
 function pmapdconfirmedinst()
@@ -180,7 +180,7 @@ function pmapdconfirmedinst()
     title = attr(text = "Daily New Cases per 100k " * string(t[end])[1:10] * " (log10)", yref = "paper", y=1.0)
 
     layout = Layout(; title=title, showlegend=false, geo=geo)
-    plot(pmapsg, layout)
+    PlotlyJS.plot(pmapsg, layout)
 end
 
 
@@ -216,7 +216,7 @@ function pmapdeath()
     title = attr(text = "Cumulative Death per 100k " * string(t[end])[1:10] * " (log10)", yref = "paper", y=1.0)
 
     layout = Layout(; title=title, showlegend=false, geo=geo)
-    plot(pmapsg, layout)
+    PlotlyJS.plot(pmapsg, layout)
 end
 
 function pmapddeath()
@@ -253,7 +253,7 @@ function pmapddeath()
     title = attr(text = "Daily New Deaths per 100k " * string(t[end])[1:10] * " (log10, 7 day avg.)", yref = "paper", y=1.0)
 
     layout = Layout(; title=title, showlegend=false, geo=geo)
-    plot(pmapsg, layout)
+    PlotlyJS.plot(pmapsg, layout)
 end
 
 function pmapddeathinst()
@@ -290,7 +290,7 @@ function pmapddeathinst()
     title = attr(text = "Daily New Deaths per 100k " * string(t[end])[1:10] * " (log10, 7 day avg.)", yref = "paper", y=1.0)
 
     layout = Layout(; title=title, showlegend=false, geo=geo)
-    plot(pmapsg, layout)
+    PlotlyJS.plot(pmapsg, layout)
 end
 
 
