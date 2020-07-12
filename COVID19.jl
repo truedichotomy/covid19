@@ -132,7 +132,7 @@ function load_data(datadir = ENV["HOME"] * "/Box/Data/COVID19/")
 
     covid19us = COVID19data[];
     for i = 1:size(latus)[1]
-        covid19us = push!(covid19us, COVID19data(countryUS[i], province_stateUS[i], county[i], key[i], fips[i], latus[i], lonus[i], death_US[i,12], t, confirmed_US[i,12:end], death_US[i,12:end]));
+        covid19us = push!(covid19us, COVID19data(countryUS[i], province_stateUS[i], county[i], key[i], fips[i], latus[i], lonus[i], death_US[i,12], t, confirmed_US[i,12:end], death_US[i,13:end]));
     end
 
     return covid19global, covid19us, covid19nyt_state, covid19nyt_county
