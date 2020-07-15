@@ -1,5 +1,5 @@
 using Pkg
-Pkg.activate(ENV["HOME"] * "/.julia/environments/" * "covid19")
+#Pkg.activate(ENV["HOME"] * "/.julia/environments/" * "covid19")
 Pkg.add(PackageSpec(url="https://github.com/kouketsu/GSW.jl", rev="master"))
 Pkg.add(PackageSpec(url="https://github.com/JuliaGeo/GeoDatasets.jl", rev="master"))
 Pkg.add("IJulia"); Pkg.build("IJulia"); using IJulia
