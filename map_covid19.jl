@@ -78,12 +78,17 @@ function pmapconfirmed()
         marker_color=df[:log10CONFIRMEDpc],
         marker_colorscale="Jet",
         marker_showscale = true,
+        marker_cmin = 0,
+        marker_cmax = 4,
+
         hoverinfo="text",
         hovertext=
             "County: " .* county[cind] .* ", " .* state[cind] .* "<br>" .*
             "Population: " .* string.(df[:POPULATION]) .* "<br>" .* 
             "Confirmed Cases (actual): " .* string.(df[:CONFIRMED]) .* "<br>" .* 
             "Confirmed Cases per 100k: " .* string.(round.(df[:CONFIRMEDpc], digits=2)) .* "<br>" .* 
+            "Cumulative Deaths (actual): " .* string.(df[:DEATH]) .* "<br>" .* 
+            "Cumulative Deaths per 100k: " .* string.(round.(df[:DEATHpc], digits=2)) .* "<br>" .*
             "% infected with COVID19: " .* string.(round.(df[:CONFIRMED] ./ df[:POPULATION] .* 100, digits=2)) .* "<br>" .*
             "% death rate: " .* string.(round.(df[:DEATH] ./ df[:CONFIRMED] .*100, digits=2)) 
 
@@ -197,8 +202,10 @@ function pmapdeath()
         hovertext=
             "County: " .* county[cind] .* ", " .* state[cind] .* "<br>" .*
             "Population: " .* string.(df[:POPULATION]) .* "<br>" .* 
-            "Confirmed Cases (actual): " .* string.(df[:DEATH]) .* "<br>" .* 
-            "Confirmed Cases per 100k: " .* string.(round.(df[:DEATHpc], digits=2)) .* "<br>" .*
+            "Confirmed Cases (actual): " .* string.(df[:CONFIRMED]) .* "<br>" .* 
+            "Confirmed Cases per 100k: " .* string.(round.(df[:CONFIRMEDpc], digits=2)) .* "<br>" .* 
+            "Cumulative Deaths (actual): " .* string.(df[:DEATH]) .* "<br>" .* 
+            "Cumulative Deaths per 100k: " .* string.(round.(df[:DEATHpc], digits=2)) .* "<br>" .*
             "% infected with COVID19: " .* string.(round.(df[:CONFIRMED] ./ df[:POPULATION] .* 100, digits=2)) .* "<br>" .*
             "% death rate: " .* string.(round.(df[:DEATH] ./ df[:CONFIRMED] .*100, digits=2)) 
         );
