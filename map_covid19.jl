@@ -74,7 +74,7 @@ function pmapconfirmed()
     pmapsg = PlotlyJS.scattergeo(; locationmode="USA-states", 
         lat = df[:LAT], 
         lon = df[:LON], 
-        marker_size=df[:logPOPULATION]/1.2, 
+        marker_size=df[:logPOPULATION]/1.3, 
         marker_color=df[:log10CONFIRMEDpc],
         marker_colorscale="Jet",
         marker_showscale = true,
@@ -114,7 +114,7 @@ function pmapdconfirmed()
     pmapsg = PlotlyJS.scattergeo(; locationmode="USA-states", 
         lat = df[:LAT], 
         lon = df[:LON], 
-        marker_size=df[:logPOPULATION]/1.2, 
+        marker_size=df[:logPOPULATION]/1.3, 
         marker_color=df[:log10dCONFIRMEDpc],
         marker_colorscale="Jet",
         marker_showscale = true,
@@ -153,7 +153,7 @@ function pmapdconfirmedinst()
     pmapsg = PlotlyJS.scattergeo(; locationmode="USA-states", 
         lat = df[:LAT], 
         lon = df[:LON], 
-        marker_size=df[:logPOPULATION]/1.2, 
+        marker_size=df[:logPOPULATION]/1.3, 
         marker_color=df[:log10dCONFIRMEDpcinst],
         marker_colorscale="Jet",
         marker_showscale = true,
@@ -193,10 +193,12 @@ function pmapdeath()
     pmapsg = PlotlyJS.scattergeo(; locationmode="USA-states", 
         lat = df[:LAT], 
         lon = df[:LON], 
-        marker_size=df[:logPOPULATION]/1.2, 
+        marker_size=df[:logPOPULATION]/1.3, 
         marker_color=df[:log10DEATHpc],
         marker_colorscale="Jet",
         marker_showscale = true,
+        marker_cmin = 0,
+        marker_cmax = 2.5,
         hoverinfo="text",
         #hovertext=string.(df[:DEATH]) .* " " .* county[cind],
         hovertext=
@@ -230,10 +232,12 @@ function pmapddeath()
     pmapsg = PlotlyJS.scattergeo(; locationmode="USA-states", 
         lat = df[:LAT], 
         lon = df[:LON], 
-        marker_size=df[:logPOPULATION]/1.2, 
+        marker_size=df[:logPOPULATION]/1.3, 
         marker_color=df[:log10dDEATHpc],
         marker_colorscale="Jet",
         marker_showscale = true,
+        marker_cmin = -1.5,
+        marker_cmax = 1,
         hoverinfo="text",
         #hovertext=string.(df[:dDEATH]) .* " " .* county[cind],
         hovertext=
@@ -267,10 +271,12 @@ function pmapddeathinst()
     pmapsg = PlotlyJS.scattergeo(; locationmode="USA-states", 
         lat = df[:LAT], 
         lon = df[:LON], 
-        marker_size=df[:logPOPULATION]/1.2, 
+        marker_size=df[:logPOPULATION]/1.3, 
         marker_color=df[:log10dDEATHpcinst],
         marker_colorscale="Jet",
         marker_showscale = true,
+        marker_cmin = -1.5,
+        marker_cmax = 1,
         hoverinfo="text",
         #hovertext=string.(df[:dDEATH]) .* " " .* county[cind],
         hovertext=
@@ -294,7 +300,7 @@ function pmapddeathinst()
         countrycolor="rgb(255,255,255)", 
         );
 
-    title = attr(text = "Daily New Deaths per 100k " * string(t[end])[1:10] * " (log10, 7 day avg.)", yref = "paper", y=1.0)
+    title = attr(text = "Daily New Deaths per 100k " * string(t[end])[1:10] * " (log10)", yref = "paper", y=1.0)
 
     layout = Layout(; title=title, showlegend=false, geo=geo)
     PlotlyJS.plot(pmapsg, layout)
@@ -307,9 +313,9 @@ figoutdir = "/Users/gong/GitHub/covid19_public/maps/";
 #PlotlyJS._js_path = "https://cdn.plot.ly/plotly-latest.min.js";
 
 PlotlyJS.savehtml(pmapconfirmed(), figoutdir * "covid19map_confirmed.html", :remote);
-PlotlyJS.savehtml(pmapdeath(), figoutdir * "covid19map_death.html", :remote);
 PlotlyJS.savehtml(pmapdconfirmed(), figoutdir * "covid19map_delta_confirmed_7days.html", :remote);
 PlotlyJS.savehtml(pmapdconfirmedinst(), figoutdir * "covid19map_delta_confirmed_latest.html", :remote);
+PlotlyJS.savehtml(pmapdeath(), figoutdir * "covid19map_death.html", :remote);
 PlotlyJS.savehtml(pmapddeath(), figoutdir * "covid19map_delta_death_7days.html", :remote);
-PlotlyJS.savehtml(pmapddeath(), figoutdir * "covid19map_delta_death_latest.html", :remote);
+PlotlyJS.savehtml(pmapddeathinst(), figoutdir * "covid19map_delta_death_latest.html", :remote);
 #end
