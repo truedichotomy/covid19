@@ -98,7 +98,7 @@ end
 
 #function load_covid19(confirmed_US::Any,death_US::Any,confirmed_global::Any,death_global::Any,fipstable::Any)
 function load_data(datadir = ENV["HOME"] * "/Box/Data/COVID19/")
-    (confirmed_US, death_US, confirmed_global, death_global, recovered_global, ipstable) = load_data_from_web(datadir)
+    (confirmed_US, death_US, confirmed_global, death_global, recovered_global, ipstable) = load_data_from_web(datadir);
     (covid19nyt_state, covid19nyt_county) = load_data_from_nyt(datadir);
 
     # defining the time
@@ -129,10 +129,12 @@ function load_data(datadir = ENV["HOME"] * "/Box/Data/COVID19/")
     fips = collect(Missings.replace(confirmed_US[:,5],-99999));
     county = collect(Missings.replace(confirmed_US[:,6],""));
     key = confirmed_US[:,11];
+    population = collect(Missings.replace(death_US[:,12],0));
 
     covid19us = COVID19data[];
     for i = 1:size(latus)[1]
-        covid19us = push!(covid19us, COVID19data(countryUS[i], province_stateUS[i], county[i], key[i], fips[i], latus[i], lonus[i], death_US[i,12], t, confirmed_US[i,12:end], death_US[i,13:end]));
+        #display(i)
+        covid19us = push!(covid19us, COVID19data(countryUS[i], province_stateUS[i], county[i], key[i], fips[i], latus[i], lonus[i], population[i], t, confirmed_US[i,12:end], death_US[i,13:end]));
     end
 
     return covid19global, covid19us, covid19nyt_state, covid19nyt_county
