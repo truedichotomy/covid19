@@ -5,8 +5,8 @@ plotly()
 
 include("load_covid19_data.jl")
 
-states_of_interest = ["Virginia","North Carolina","West Virginia","Delaware", "Wisconsin", "Minnesota", "Idaho", "Tennessee", "Alabama", "New York", "New Jersey", "Massachusetts", "Texas","Florida","California","Michigan", "Ohio", "Washington", "Oregon", "Illinois", "Oklahoma", "Maryland", "District of Columbia", "Alaska", "Arizona","Georgia","South Carolina", "Mississippi", "Maine", "Pennsylvania", "Puerto Rico", "Colorado", "New Hampshire", "Iowa", "Vermont","Hawaii", "Montana", "North Dakota", "South Dakota", "Arkansas", "Connecticut", "Indiana", "Kansas", "Kentucky", "Louisiana", "Missouri", "Nebraska", "Nevada", "New Mexico", "Utah", "Wyoming"]
-#states_of_interest = ["Rhode Island"]
+states_of_interest = ["Virginia","North Carolina","West Virginia","Delaware", "Wisconsin", "Minnesota", "Idaho", "Tennessee", "Alabama", "New York", "New Jersey", "Massachusetts", "Texas","Florida","California","Michigan", "Ohio", "Washington", "Oregon", "Illinois", "Oklahoma", "Maryland", "District of Columbia", "Alaska", "Arizona","Georgia","South Carolina", "Mississippi", "Maine", "Pennsylvania", "Colorado", "New Hampshire", "Iowa", "Vermont","Hawaii", "Montana", "North Dakota", "South Dakota", "Arkansas", "Connecticut", "Indiana", "Kansas", "Kentucky", "Louisiana", "Missouri", "Nebraska", "Nevada", "New Mexico", "Utah", "Wyoming"]
+#states_of_interest = ["Rhode Island",  "Puerto Rico",]
 
 strnow = string(Dates.now())
 strnow30 = strnow[1:4] * strnow[6:7] * strnow[9:10] * "T" * strnow[12:13] * strnow[15:16] * strnow[18:19]
@@ -91,7 +91,7 @@ Makie.save("/Volumes/GoogleDrive/My Drive/COVID19/" * "covid19_delta_dealth_map.
 =#
 
 for j = 1:length(states_of_interest)
-    #display(string(j) * " " * states_of_interest[j])
+    display(string(j) * " " * states_of_interest[j])
     ## calculate per state and total confirmed for US
     tind = 1:length(covid19us[1].confirmed);
     t = covid19us[1].time[tind];
