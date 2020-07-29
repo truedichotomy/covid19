@@ -104,7 +104,7 @@ function pmapconfirmed()
         countrycolor="rgb(255,255,255)", 
         );
 
-    title = attr(text = "Cumulative Confirmed Cases per 100k " * string(t[end])[1:10] * " (log10)", yref = "paper", y=1.0)
+    title = attr(text = "Cumulative Confirmed Cases per 100k " * string(t[end])[1:10] * " (log10) <br><sub><a href=\"https://truedichotomy.github.io/covid19_public/\">https://truedichotomy.github.io/covid19_public/</a></sub></br>", yref = "paper", y=1.0)
 
     layout = Layout(; title=title, showlegend=false, geo=geo)
     PlotlyJS.plot(pmapsg, layout)
@@ -143,7 +143,7 @@ function pmapdconfirmed()
         countrycolor="rgb(255,255,255)", 
         );
 
-    title = attr(text = "Daily New Cases per 100k " * string(t[end])[1:10] * " (log10, 7 day avg.)", yref = "paper", y=1.0)
+    title = attr(text = "Daily New Cases per 100k " * string(t[end])[1:10] * " (log10, 7 day avg.) <br><sub><a href=\"https://truedichotomy.github.io/covid19_public/\">https://truedichotomy.github.io/covid19_public/</a></sub></br>", yref = "paper", y=1.0)
 
     layout = Layout(; title=title, showlegend=false, geo=geo)
     PlotlyJS.plot(pmapsg, layout)
@@ -182,7 +182,7 @@ function pmapdconfirmedinst()
         countrycolor="rgb(255,255,255)", 
         );
 
-    title = attr(text = "Daily New Cases per 100k " * string(t[end])[1:10] * " (log10)", yref = "paper", y=1.0)
+    title = attr(text = "Daily New Cases per 100k " * string(t[end])[1:10] * " (log10) <br><sub><a href=\"https://truedichotomy.github.io/covid19_public/\">https://truedichotomy.github.io/covid19_public/</a></sub></br>", yref = "paper", y=1.0)
 
     layout = Layout(; title=title, showlegend=false, geo=geo)
     PlotlyJS.plot(pmapsg, layout)
@@ -222,7 +222,7 @@ function pmapdeath()
         countrycolor="rgb(255,255,255)", 
         );
 
-    title = attr(text = "Cumulative Death per 100k " * string(t[end])[1:10] * " (log10)", yref = "paper", y=1.0)
+    title = attr(text = "Cumulative Death per 100k " * string(t[end])[1:10] * " (log10) <br><sub><a href=\"https://truedichotomy.github.io/covid19_public/\">https://truedichotomy.github.io/covid19_public/</a></sub></br>", yref = "paper", y=1.0)
 
     layout = Layout(; title=title, showlegend=false, geo=geo)
     PlotlyJS.plot(pmapsg, layout)
@@ -261,7 +261,7 @@ function pmapddeath()
         countrycolor="rgb(255,255,255)", 
         );
 
-    title = attr(text = "Daily New Deaths per 100k " * string(t[end])[1:10] * " (log10, 7 day avg.)", yref = "paper", y=1.0)
+    title = attr(text = "Daily New Deaths per 100k " * string(t[end])[1:10] * " (log10, 7 day avg.) <br><sub><a href=\"https://truedichotomy.github.io/covid19_public/\">https://truedichotomy.github.io/covid19_public/</a></sub></br>", yref = "paper", y=1.0)
 
     layout = Layout(; title=title, showlegend=false, geo=geo)
     PlotlyJS.plot(pmapsg, layout)
@@ -300,7 +300,7 @@ function pmapddeathinst()
         countrycolor="rgb(255,255,255)", 
         );
 
-    title = attr(text = "Daily New Deaths per 100k " * string(t[end])[1:10] * " (log10)", yref = "paper", y=1.0)
+    title = attr(text = "Daily New Deaths per 100k " * string(t[end])[1:10] * " (log10) <br><sub><a href=\"https://truedichotomy.github.io/covid19_public/\">https://truedichotomy.github.io/covid19_public/</a></sub></br>", yref = "paper", y=1.0)
 
     layout = Layout(; title=title, showlegend=false, geo=geo)
     PlotlyJS.plot(pmapsg, layout)

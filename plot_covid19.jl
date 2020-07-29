@@ -7,6 +7,7 @@ include("load_covid19_data.jl")
 
 states_of_interest = ["Virginia","North Carolina","West Virginia","Delaware", "Wisconsin", "Minnesota", "Idaho", "Tennessee", "Alabama", "New York", "New Jersey", "Massachusetts", "Texas","Florida","California","Michigan", "Ohio", "Washington", "Oregon", "Illinois", "Oklahoma", "Maryland", "District of Columbia", "Alaska", "Arizona","Georgia","South Carolina", "Mississippi", "Maine", "Pennsylvania", "Colorado", "New Hampshire", "Iowa", "Vermont","Hawaii", "Montana", "North Dakota", "South Dakota", "Arkansas", "Connecticut", "Indiana", "Kansas", "Kentucky", "Louisiana", "Missouri", "Nebraska", "Nevada", "New Mexico", "Utah", "Wyoming"]
 #states_of_interest = ["Rhode Island",  "Puerto Rico",]
+#states_of_interest = ["Puerto Rico",]
 
 strnow = string(Dates.now())
 strnow30 = strnow[1:4] * strnow[6:7] * strnow[9:10] * "T" * strnow[12:13] * strnow[15:16] * strnow[18:19]
@@ -151,7 +152,6 @@ for j = 1:length(states_of_interest)
 
     state_of_interest = states_of_interest[j];
 
-
     ## calculate per county case counts for specific state
     ind = findall(state .== state_of_interest);
     #ind = findall((state .== state_of_interest) .& (county .!= "Unassigned"));
@@ -207,6 +207,7 @@ for j = 1:length(states_of_interest)
     tindstate = 1:length(covid19us[ind[1]].confirmed);
     tstate = covid19us[ind[1]].time[tindstate];
 
+    display(statetotaldeath)
 
     # Plot COVID19 data!
     #l8out = @layout([a; b; c; d; e])
