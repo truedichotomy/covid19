@@ -222,7 +222,7 @@ for j = 1:length(states_of_interest)
         #confirmi[ind0] .= NaN;
         Plots.plot!(t, confirmi, label=ustate[si])
     end
-    Plots.plot(pCOVID19usa, yscale=:log10, framestyle=:box, title="US - Confirmed COVID-19 Cases " * "as of " * string(t[end])[1:10] * ":  " * totalconfirmed_strfmt, ylim=(1,exp(15)))
+    Plots.plot(pCOVID19usa, yscale=:log10, ylim=(1,10^6.7) ,framestyle=:box, title="US - Confirmed COVID-19 Cases " * "as of " * string(t[end])[1:10] * ":  " * totalconfirmed_strfmt)
 
     dtotalconfirmed_strfmt = Formatting.format.(dtotalconfirmed[end], commas=true);
     dCOVID19usa = Plots.plot(t[2:end], dtotalconfirmed, label="USA Daily Cases")
@@ -276,7 +276,7 @@ for j = 1:length(states_of_interest)
         #deathi[ind0] .= NaN;
         Plots.plot!(t, deathi, label=ustate[si])
     end
-    Plots.plot(pCOVID19usaD, yscale=:log, framestyle=:box, title="US - COVID-19 Death " * "as of " * string(t[end])[1:10] * ":  " * totaldeath_strfmt, ylim=(1,exp(15)))
+    Plots.plot(pCOVID19usaD, yscale=:log10, ylim=(1,10^5.3), framestyle=:box, title="US - COVID-19 Death " * "as of " * string(t[end])[1:10] * ":  " * totaldeath_strfmt)
 
     dtotaldeath_strfmt = Formatting.format.(dtotaldeath[end], commas=true);
     dCOVID19usaD = Plots.plot(t[2:end], dtotaldeath, label="USA Daily Deaths")
@@ -297,7 +297,7 @@ for j = 1:length(states_of_interest)
         deathi[ind0] .= NaN;
         Plots.plot!(covid19us[ind[i]].time[tind], deathi, label=county[ind[i]])
     end
-    Plots.plot(pCOVID19stateD, yscale=:log, framestyle=:box, title=state[ind[1]] * " - COVID-19 Deaths " * "as of " * string(t[end])[1:10] * ":  " * statetotaldeath_strfmt)
+    Plots.plot(pCOVID19stateD, yscale=:log10, framestyle=:box, title=state[ind[1]] * " - COVID-19 Deaths " * "as of " * string(t[end])[1:10] * ":  " * statetotaldeath_strfmt)
 
     dstatetotaldeath_strfmt = Formatting.format.(dstatetotaldeath[end], commas=true);
     dCOVID19stateD = Plots.plot(tstate[2:end], dstatetotaldeath, label=state[ind[1]] * " Daily Death")
