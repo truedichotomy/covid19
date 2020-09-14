@@ -15,7 +15,7 @@ strnow30 = strnow[1:4] * strnow[6:7] * strnow[9:10] * "T" * strnow[12:13] * strn
 # extracting county indices with land area and population
 cind = findall((countyarea .> 0) .& (cpop .> 0));
 
-reasonable_resolution() = (1000, 800)
+reasonable_resolution() = (1200, 900)
 
 tind = 1:length(covid19us[1].confirmed);
 t = covid19us[1].time[tind];
@@ -222,18 +222,21 @@ for j = 1:length(states_of_interest)
         #confirmi[ind0] .= NaN;
         Plots.plot!(t, confirmi, label=ustate[si])
     end
-    Plots.plot(pCOVID19usa, yscale=:log10, ylim=(1,10^6.7) ,framestyle=:box, title="US - Confirmed COVID-19 Cases " * "as of " * string(t[end])[1:10] * ":  " * totalconfirmed_strfmt)
+    Plots.plot(pCOVID19usa, yscale=:log10, ylim=(1,10^7) ,framestyle=:box, title="US - Confirmed COVID-19 Cases " * "as of " * string(t[end])[1:10] * ":  " * totalconfirmed_strfmt)
 
     dtotalconfirmed_strfmt = Formatting.format.(dtotalconfirmed[end], commas=true);
+    #dCOVID19usa = Plots.plot(t[2:end], dtotalconfirmed, m = (2, :auto), label="USA Daily Cases")
     dCOVID19usa = Plots.plot(t[2:end], dtotalconfirmed, label="USA Daily Cases")
     for si = 1:length(ustate)
         confirmi = dstateconfirmed[si];
         ind0 = findall(confirmi .== 0);
         #confirmi[ind0] .= NaN;
+        #Plots.plot!(t[2:end], confirmi, m = (1, :auto), label=ustate[si])
         Plots.plot!(t[2:end], confirmi, label=ustate[si])
     end
     #Plots.plot(dCOVID19usa, xrotation=20, size=(800,500), legend=:outertopright, framestyle=:box, title="US - Daily Confirmed COVID-19 Cases", line = (:dot, 2), marker = ([:hex :d], 2, 0.8, Plots.stroke(0, :gray)),  markerstrokewidth = 0)
-    Plots.plot(dCOVID19usa, framestyle=:box, title="US - Daily New COVID-19 Cases " * "on " * string(t[end])[1:10] * ":  " * dtotalconfirmed_strfmt, marker = (2, :circle, 2),  markerstrokewidth = 0)
+    #Plots.plot(dCOVID19usa, framestyle=:box, title="US - Daily New COVID-19 Cases " * "on " * string(t[end])[1:10] * ":  " * dtotalconfirmed_strfmt, markershape = :circle, markersize = 1, markerstrokestyle = :dot,  markerstrokewidth = 0)
+    Plots.plot(dCOVID19usa, framestyle=:box, title="US - Daily New COVID-19 Cases " * "on " * string(t[end])[1:10] * ":  " * dtotalconfirmed_strfmt)
 
     statetotalconfirmed_strfmt = Formatting.format.(statetotalconfirmed[end], commas=true);
     pCOVID19state = Plots.plot(t, statetotalconfirmed, label=state[ind[1]] * " Total")
@@ -254,7 +257,8 @@ for j = 1:length(states_of_interest)
         #confirmi[ind0] .= NaN;
         Plots.plot!(tstate[2:end], confirmi, label=county[ind[i]])
     end
-    Plots.plot(dCOVID19state, framestyle=:box, title=state[ind[1]] * " - Daily New COVID-19 Cases " * "on " * string(t[end])[1:10] * ":  " * dstatetotalconfirmed_strfmt, marker = (2, :circle, 2),  markerstrokewidth = 0)
+    #Plots.plot(dCOVID19state, framestyle=:box, title=state[ind[1]] * " - Daily New COVID-19 Cases " * "on " * string(t[end])[1:10] * ":  " * dstatetotalconfirmed_strfmt, marker = (2, :circle, 2),  markerstrokewidth = 0)
+    Plots.plot(dCOVID19state, framestyle=:box, title=state[ind[1]] * " - Daily New COVID-19 Cases " * "on " * string(t[end])[1:10] * ":  " * dstatetotalconfirmed_strfmt)
 
     dstatetotalconfirmedpc_strfmt = Formatting.format.(dstatetotalconfirmed[end] / sum(population) * 1.0e5, commas=true, precision = 3);
     dCOVID19statepc = Plots.plot(tstate[2:end], dstatetotalconfirmed / sum(population) * 1.0e5, label=state[ind[1]] * " Daily Cases")
@@ -264,7 +268,8 @@ for j = 1:length(states_of_interest)
         confirmi[ind0] .= NaN;
         Plots.plot!(tstate[2:end], confirmi, label=county[ind[i]])
     end
-    Plots.plot(dCOVID19statepc, framestyle=:box, title=state[ind[1]] * " - Daily New COVID-19 Cases per 100k " * "on " * string(t[end])[1:10] * ":  " * dstatetotalconfirmedpc_strfmt, marker = (2, :circle, 2),  markerstrokewidth = 0)
+    #Plots.plot(dCOVID19statepc, framestyle=:box, title=state[ind[1]] * " - Daily New COVID-19 Cases per 100k " * "on " * string(t[end])[1:10] * ":  " * dstatetotalconfirmedpc_strfmt, marker = (2, :circle, 2),  markerstrokewidth = 0)
+    Plots.plot(dCOVID19statepc, framestyle=:box, title=state[ind[1]] * " - Daily New COVID-19 Cases per 100k " * "on " * string(t[end])[1:10] * ":  " * dstatetotalconfirmedpc_strfmt)
 
 
 
@@ -287,7 +292,8 @@ for j = 1:length(states_of_interest)
         Plots.plot!(t[2:end], deathi, label=ustate[si])
     end
     #Plots.plot(dCOVID19usa, xrotation=20, size=(800,500), legend=:outertopright, framestyle=:box, title="US - Daily Confirmed COVID-19 Cases", line = (:dot, 2), marker = ([:hex :d], 2, 0.8, Plots.stroke(0, :gray)),  markerstrokewidth = 0)
-    Plots.plot(dCOVID19usaD, framestyle=:box, title="US - Daily COVID-19 Deaths " * "on " * string(t[end])[1:10] * ":  " * dtotaldeath_strfmt, marker = (2, :circle, 2),  markerstrokewidth = 0)
+    #Plots.plot(dCOVID19usaD, framestyle=:box, title="US - Daily COVID-19 Deaths " * "on " * string(t[end])[1:10] * ":  " * dtotaldeath_strfmt, marker = (2, :circle, 2),  markerstrokewidth = 0)
+    Plots.plot(dCOVID19usaD, framestyle=:box, title="US - Daily COVID-19 Deaths " * "on " * string(t[end])[1:10] * ":  " * dtotaldeath_strfmt)
 
     statetotaldeath_strfmt = Formatting.format.(statetotaldeath[end], commas=true);
     pCOVID19stateD = Plots.plot(t, statetotaldeath, label=state[ind[1]] * " Total")
@@ -307,7 +313,8 @@ for j = 1:length(states_of_interest)
         #deathi[ind0] .= NaN;
         Plots.plot!(tstate[2:end], deathi, label=county[ind[i]])
     end
-    Plots.plot(dCOVID19stateD, framestyle=:box, title=state[ind[1]] * " - Daily COVID-19 Deaths " * "on " * string(t[end])[1:10] * ":  " * dstatetotaldeath_strfmt, marker = (2, :circle, 2),  markerstrokewidth = 0)
+    #Plots.plot(dCOVID19stateD, framestyle=:box, title=state[ind[1]] * " - Daily COVID-19 Deaths " * "on " * string(t[end])[1:10] * ":  " * dstatetotaldeath_strfmt, marker = (2, :circle, 2),  markerstrokewidth = 0)
+    Plots.plot(dCOVID19stateD, framestyle=:box, title=state[ind[1]] * " - Daily COVID-19 Deaths " * "on " * string(t[end])[1:10] * ":  " * dstatetotaldeath_strfmt)
 
     dstatetotaldeathpc_strfmt = Formatting.format.(dstatetotaldeath[end] / sum(population) * 1.0e5, commas=true, precision = 3);
     dCOVID19statepcD = Plots.plot(tstate[2:end], dstatetotaldeath / sum(population) * 1.0e5, label=state[ind[1]] * " Daily Death")
@@ -317,13 +324,13 @@ for j = 1:length(states_of_interest)
         #deathi[ind0] .= NaN;
         Plots.plot!(tstate[2:end], deathi, label=county[ind[i]])
     end
-    Plots.plot(dCOVID19statepcD, framestyle=:box, title=state[ind[1]] * " - Daily COVID-19 Deaths per 100k " * "on " * string(t[end])[1:10] * ":  " * dstatetotaldeathpc_strfmt, marker = (2, :circle, 2),  markerstrokewidth = 0)
-
+    #Plots.plot(dCOVID19statepcD, framestyle=:box, title=state[ind[1]] * " - Daily COVID-19 Deaths per 100k " * "on " * string(t[end])[1:10] * ":  " * dstatetotaldeathpc_strfmt, marker = (2, :circle, 2),  markerstrokewidth = 0)
+    Plots.plot(dCOVID19statepcD, framestyle=:box, title=state[ind[1]] * " - Daily COVID-19 Deaths per 100k " * "on " * string(t[end])[1:10] * ":  " * dstatetotaldeathpc_strfmt)
     
     #covid19plot_confirmed = Plots.plot(pCOVID19usa, dCOVID19usa, pCOVID19state, dCOVID19state, dCOVID19statepc, layout = l8out,  xrotation=30, size=(800,900), xticks = t[1:7:end], legend=:false);
     #covid19plot_death = Plots.plot(pCOVID19usa, dCOVID19usa, pCOVID19state, dCOVID19state, dCOVID19statepc, layout = l8out,  xrotation=30, size=(800,900), xticks = t[1:7:end], legend=:false);
 
-    covid19plot = Plots.plot(pCOVID19usa, pCOVID19usaD, dCOVID19usa, dCOVID19usaD, pCOVID19state, pCOVID19stateD, dCOVID19state, dCOVID19stateD, dCOVID19statepc, dCOVID19statepcD, layout = l8out,  xrotation=30, size=(1300,900), xticks = t[1:7:end], legend=:false);
+    covid19plot = Plots.plot(pCOVID19usa, pCOVID19usaD, dCOVID19usa, dCOVID19usaD, pCOVID19state, pCOVID19stateD, dCOVID19state, dCOVID19stateD, dCOVID19statepc, dCOVID19statepcD, layout = l8out,  xrotation=50, size=(1300,900), xticks = t[1:7:end], legend=:false);
 
     figoutdir = "/Users/gong/GitHub/covid19_public/timeseries/";
     #Plots.savefig(covid19plot_confirmed, figoutdir * "covid19ts_confirmed_" * filter(x -> !isspace(x), state_of_interest) * ".html")
