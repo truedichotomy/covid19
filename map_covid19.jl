@@ -74,12 +74,12 @@ function pmapconfirmed()
     pmapsg = PlotlyJS.scattergeo(; locationmode="USA-states", 
         lat = df[:LAT], 
         lon = df[:LON], 
-        marker_size=df[:logPOPULATION]/1.3, 
+        marker_size=df[:logPOPULATION]/1.5, 
         marker_color=df[:log10CONFIRMEDpc],
         marker_colorscale="Jet",
         marker_showscale = true,
         marker_cmin = 0,
-        marker_cmax = 4,
+        marker_cmax = 4.5,
 
         hoverinfo="text",
         hovertext=
