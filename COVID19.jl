@@ -43,6 +43,7 @@ function load_data_from_nyt(datadir = ENV["HOME"] * "/Box/Data/COVID19/")
     # data source: https://github.com/nytimes/covid-19-data
     covid19nyt_url_county = "https://github.com/nytimes/covid-19-data/raw/master/us-counties.csv";
     covid19nyt_url_state = "https://github.com/nytimes/covid-19-data/raw/master/us-states.csv";
+
     covid19nyt_path_county = datadir * "covid19nyt_county.csv";
     covid19nyt_path_state = datadir * "covid19nyt_state.csv";
 
@@ -98,8 +99,28 @@ end
 
 #function load_covid19(confirmed_US::Any,death_US::Any,confirmed_global::Any,death_global::Any,fipstable::Any)
 function load_data(datadir = ENV["HOME"] * "/Box/Data/COVID19/")
-    (confirmed_US, death_US, confirmed_global, death_global, recovered_global, ipstable) = load_data_from_web(datadir);
-    (covid19nyt_state, covid19nyt_county) = load_data_from_nyt(datadir);
+    #(confirmed_US, death_US, confirmed_global, death_global, recovered_global, ipstable) = load_data_from_web(datadir);
+    #(covid19nyt_state, covid19nyt_county) = load_data_from_nyt(datadir);
+
+    covid19path_confirmed_US = datadir * "covid19_confirmed_US.csv"
+    covid19path_confirmed_global = datadir * "covid19_confirmed_global.csv"
+    covid19path_death_US = datadir * "covid19_death_US.csv"
+    covid19path_death_global = datadir * "covid19_death_global.csv"
+    covid19path_recovered_global = datadir * "covid19_recovered_global.csv"
+    covid19path_fips = datadir * "UID_ISO_FIPS_LookUp_Table.csv"
+
+    covid19nyt_path_county = datadir * "covid19nyt_county.csv";
+    covid19nyt_path_state = datadir * "covid19nyt_state.csv";
+
+    confirmed_US = DataFrame!(CSV.File(covid19path_confirmed_US));
+    death_US = DataFrame!(CSV.File(covid19path_death_US));
+    confirmed_global = DataFrame!(CSV.File(covid19path_confirmed_global));
+    death_global = DataFrame!(CSV.File(covid19path_death_global));
+    recovered_global = DataFrame!(CSV.File(covid19path_recovered_global));
+    fipstable = DataFrame!(CSV.File(covid19path_fips));
+
+    covid19nyt_county = DataFrame!(CSV.File(covid19nyt_path_county));
+    covid19nyt_state = DataFrame!(CSV.File(covid19nyt_path_state));
 
     # defining the time
     t0 = Date("2020-01-22")

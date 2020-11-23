@@ -5,8 +5,8 @@ plotly()
 
 include("load_covid19_data.jl")
 
-states_of_interest = ["Virginia","North Carolina","West Virginia","Delaware", "Wisconsin", "Minnesota", "Idaho", "Tennessee", "Alabama", "New York", "New Jersey", "Massachusetts", "Texas","Florida","California","Michigan", "Ohio", "Washington", "Oregon", "Illinois", "Oklahoma", "Maryland", "District of Columbia", "Alaska", "Arizona","Georgia","South Carolina", "Mississippi", "Maine", "Pennsylvania", "Colorado", "New Hampshire", "Iowa", "Vermont","Hawaii", "Montana", "North Dakota", "South Dakota", "Arkansas", "Connecticut", "Indiana", "Kansas", "Kentucky", "Louisiana", "Missouri", "Nebraska", "Nevada", "New Mexico", "Utah", "Wyoming"]
-#states_of_interest = ["Rhode Island",  "Puerto Rico",]
+states_of_interest = ["Virginia","North Carolina","West Virginia","Delaware", "Wisconsin", "Minnesota", "Idaho", "Tennessee", "Alabama", "New York", "New Jersey", "Massachusetts", "Texas","Florida","California","Michigan", "Ohio", "Washington", "Oregon", "Illinois", "Oklahoma", "Maryland", "District of Columbia", "Alaska", "Arizona","Georgia","South Carolina", "Mississippi", "Maine", "Pennsylvania", "Colorado", "New Hampshire", "Iowa", "Vermont","Hawaii", "Montana", "North Dakota", "South Dakota", "Arkansas", "Connecticut", "Indiana", "Kansas", "Kentucky", "Louisiana", "Missouri", "Nebraska", "Nevada", "New Mexico", "Utah", "Wyoming", "Rhode Island",  "Puerto Rico"]
+#states_of_interest = ["Rhode Island",  "Puerto Rico"]
 #states_of_interest = ["Puerto Rico",]
 
 strnow = string(Dates.now())
@@ -222,7 +222,7 @@ for j = 1:length(states_of_interest)
         #confirmi[ind0] .= NaN;
         Plots.plot!(t, confirmi, label=ustate[si])
     end
-    Plots.plot(pCOVID19usa, yscale=:log10, ylim=(1,10^7.1) ,framestyle=:box, title="US - Confirmed COVID-19 Cases " * "as of " * string(t[end])[1:10] * ":  " * totalconfirmed_strfmt)
+    Plots.plot(pCOVID19usa, yscale=:log10, ylim=(1,10^7.2) ,framestyle=:box, title="US - Confirmed COVID-19 Cases " * "as of " * string(t[end])[1:10] * ":  " * totalconfirmed_strfmt)
 
     dtotalconfirmed_strfmt = Formatting.format.(dtotalconfirmed[end], commas=true);
     #dCOVID19usa = Plots.plot(t[2:end], dtotalconfirmed, m = (2, :auto), label="USA Daily Cases")
@@ -330,7 +330,7 @@ for j = 1:length(states_of_interest)
     #covid19plot_confirmed = Plots.plot(pCOVID19usa, dCOVID19usa, pCOVID19state, dCOVID19state, dCOVID19statepc, layout = l8out,  xrotation=30, size=(800,900), xticks = t[1:7:end], legend=:false);
     #covid19plot_death = Plots.plot(pCOVID19usa, dCOVID19usa, pCOVID19state, dCOVID19state, dCOVID19statepc, layout = l8out,  xrotation=30, size=(800,900), xticks = t[1:7:end], legend=:false);
 
-    covid19plot = Plots.plot(pCOVID19usa, pCOVID19usaD, dCOVID19usa, dCOVID19usaD, pCOVID19state, pCOVID19stateD, dCOVID19state, dCOVID19stateD, dCOVID19statepc, dCOVID19statepcD, layout = l8out,  xrotation=60, size=(1300,1000), xticks = t[1:7:end], legend=:false);
+    covid19plot = Plots.plot(pCOVID19usa, pCOVID19usaD, dCOVID19usa, dCOVID19usaD, pCOVID19state, pCOVID19stateD, dCOVID19state, dCOVID19stateD, dCOVID19statepc, dCOVID19statepcD, layout = l8out,  xrotation=35, size=reasonable_resolution(), xticks = t[1:14:end], legend=:false);
 
     figoutdir = "/Users/gong/GitHub/covid19_public/timeseries/";
     #Plots.savefig(covid19plot_confirmed, figoutdir * "covid19ts_confirmed_" * filter(x -> !isspace(x), state_of_interest) * ".html")

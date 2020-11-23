@@ -18,6 +18,7 @@ end
 
 ## Load COVID-19 Data
 import COVID19
+
 (covid19g, covid19us, covid19nyt_state, covid19nyt_county) = COVID19.load_data();
 
 country = [covid19us[i].country for i in 1:length(covid19us)];
@@ -27,12 +28,14 @@ state = [covid19us[i].province_state for i in 1:length(covid19us)];
 clat = [covid19us[i].lat for i in 1:length(covid19us)];
 clon = [covid19us[i].lon for i in 1:length(covid19us)];
 cpop = [covid19us[i].population for i in 1:length(covid19us)];
+
 cconfirmed = [covid19us[i].confirmed[end] for i in 1:length(covid19us)];
 dcconfirmed = [mean(covid19us[i].confirmed[end-7:end] - covid19us[i].confirmed[end-8:end-1]) for i in 1:length(covid19us)];
 dcconfirmedinst = [mean(covid19us[i].confirmed[end] - covid19us[i].confirmed[end-1]) for i in 1:length(covid19us)];
 cdeath = [covid19us[i].death[end] for i in 1:length(covid19us)];
 dcdeath = [mean(covid19us[i].death[end-7:end] - covid19us[i].death[end-8:end-1]) for i in 1:length(covid19us)];
 dcdeathinst = [mean(covid19us[i].death[end] - covid19us[i].death[end-1]) for i in 1:length(covid19us)];
+
 ustate = unique(state);
 mfips = deepcopy(fips);
 strfips = string.(fips);
