@@ -132,19 +132,19 @@ function load_data(datadir = ENV["HOME"] * "/Box/Data/COVID19/")
     c0_US = 12;
 
     # loading global COVID19 time series data
-    latg = confirmed_global[:,3];
-    long = confirmed_global[:,4];
+    latg = collect(Missings.replace(confirmed_global[:,3],NaN));
+    long = collect(Missings.replace(confirmed_global[:,4],NaN));
     country = confirmed_global[:,2];
     province_state = collect(Missings.replace(confirmed_global[:,1],""));
-
+    
     covid19global = COVID19data[];
     for i = 1:size(latg)[1]
         covid19global = push!(covid19global, COVID19data(country[i], province_state[i], "", province_state[i] * " ," * country[i], -9999, latg[i], long[i], -9999, t, confirmed_global[i,5:end], death_global[i,5:end]));
     end
 
     # loading the US COVID19 time series
-    latus = confirmed_US[:,9];
-    lonus = confirmed_US[:,10];
+    latus = collect(Missings.replace(confirmed_US[:,9],NaN));
+    lonus = collect(Missings.replace(confirmed_US[:,10],NaN));
     countryUS = confirmed_US[:,8];
     province_stateUS = collect(Missings.replace(confirmed_US[:,7],""));
     fips = collect(Missings.replace(confirmed_US[:,5],-99999));
