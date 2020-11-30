@@ -15,7 +15,7 @@ strnow30 = strnow[1:4] * strnow[6:7] * strnow[9:10] * "T" * strnow[12:13] * strn
 # extracting county indices with land area and population
 cind = findall((countyarea .> 0) .& (cpop .> 0));
 
-reasonable_resolution() = (1200, 900)
+reasonable_resolution() = (1440, 900)
 
 tind = 1:length(covid19us[1].confirmed);
 t = covid19us[1].time[tind];
@@ -269,7 +269,7 @@ for j = 1:length(states_of_interest)
         Plots.plot!(tstate[2:end], confirmi, label=county[ind[i]])
     end
     #Plots.plot(dCOVID19statepc, framestyle=:box, title=state[ind[1]] * " - Daily New COVID-19 Cases per 100k " * "on " * string(t[end])[1:10] * ":  " * dstatetotalconfirmedpc_strfmt, marker = (2, :circle, 2),  markerstrokewidth = 0)
-    Plots.plot(dCOVID19statepc, framestyle=:box, title=state[ind[1]] * " - Daily New COVID-19 Cases per 100k " * "on " * string(t[end])[1:10] * ":  " * dstatetotalconfirmedpc_strfmt)
+    Plots.plot(dCOVID19statepc, framestyle=:box, title=state[ind[1]] * " - Daily New COVID-19 Cases / 100k " * "on " * string(t[end])[1:10] * ":  " * dstatetotalconfirmedpc_strfmt)
 
 
 
@@ -325,7 +325,7 @@ for j = 1:length(states_of_interest)
         Plots.plot!(tstate[2:end], deathi, label=county[ind[i]])
     end
     #Plots.plot(dCOVID19statepcD, framestyle=:box, title=state[ind[1]] * " - Daily COVID-19 Deaths per 100k " * "on " * string(t[end])[1:10] * ":  " * dstatetotaldeathpc_strfmt, marker = (2, :circle, 2),  markerstrokewidth = 0)
-    Plots.plot(dCOVID19statepcD, framestyle=:box, title=state[ind[1]] * " - Daily COVID-19 Deaths per 100k " * "on " * string(t[end])[1:10] * ":  " * dstatetotaldeathpc_strfmt)
+    Plots.plot(dCOVID19statepcD, framestyle=:box, title=state[ind[1]] * " - Daily COVID-19 Deaths / 100k " * "on " * string(t[end])[1:10] * ":  " * dstatetotaldeathpc_strfmt)
     
     #covid19plot_confirmed = Plots.plot(pCOVID19usa, dCOVID19usa, pCOVID19state, dCOVID19state, dCOVID19statepc, layout = l8out,  xrotation=30, size=(800,900), xticks = t[1:7:end], legend=:false);
     #covid19plot_death = Plots.plot(pCOVID19usa, dCOVID19usa, pCOVID19state, dCOVID19state, dCOVID19statepc, layout = l8out,  xrotation=30, size=(800,900), xticks = t[1:7:end], legend=:false);
