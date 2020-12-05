@@ -7,8 +7,9 @@ reasonable_resolution() = (1000, 800)
 
 # time index
 #for ti = 8:length(covid19us[1].confirmed)
+for ti = length(covid19us[1].confirmed):length(covid19us[1].confirmed)
 #ti = 200
-ti = length(covid19us[1].confirmed)
+#ti = length(covid19us[1].confirmed)
 
 cconfirmed = [covid19us[i].confirmed[ti] for i in 1:length(covid19us)];
 dcconfirmed = [mean(covid19us[i].confirmed[ti-7+1:ti] - covid19us[i].confirmed[ti-8+1:ti-1]) for i in 1:length(covid19us)];
@@ -327,14 +328,20 @@ end
 
 
 #figoutdir = "/Volumes/GoogleDrive/My Drive/COVID19/";
-figoutdir = "/Users/gong/GitHub/covid19_public/maps/";
+figoutdir = "/Users/gong/GitHub/covid19_public/ts_maps/";
 
 #PlotlyJS._js_path = "https://cdn.plot.ly/plotly-latest.min.js";
 
-PlotlyJS.savehtml(pmapconfirmed(), figoutdir * "covid19map_confirmed.html", :remote);
-PlotlyJS.savehtml(pmapdconfirmed(), figoutdir * "covid19map_delta_confirmed_7days.html", :remote);
-PlotlyJS.savehtml(pmapdconfirmedinst(), figoutdir * "covid19map_delta_confirmed_latest.html", :remote);
-PlotlyJS.savehtml(pmapdeath(), figoutdir * "covid19map_death.html", :remote);
-PlotlyJS.savehtml(pmapddeath(), figoutdir * "covid19map_delta_death_7days.html", :remote);
-PlotlyJS.savehtml(pmapddeathinst(), figoutdir * "covid19map_delta_death_latest.html", :remote);
+#PlotlyJS.savehtml(pmapconfirmed(), figoutdir * "covid19map_confirmed.html", :remote);
+#PlotlyJS.savehtml(pmapdconfirmed(), figoutdir * "covid19map_delta_confirmed_7days.html", :remote);
+#PlotlyJS.savehtml(pmapdconfirmedinst(), figoutdir * "covid19map_delta_confirmed_latest.html", :remote);
+#PlotlyJS.savehtml(pmapdeath(), figoutdir * "covid19map_death.html", :remote);
+#PlotlyJS.savehtml(pmapddeath(), figoutdir * "covid19map_delta_death_7days.html", :remote);
+#PlotlyJS.savehtml(pmapddeathinst(), figoutdir * "covid19map_delta_death_latest.html", :remote);
 #end
+
+#p = pmapdconfirmed()
+mio = open(figoutdir * "covid19map_delta_confirmed_7days_" * string(t[ti]) * ".png", "w")
+PlotlyJS.savefig(mio, pmapdconfirmed(); format="png");
+close(mio)
+end
