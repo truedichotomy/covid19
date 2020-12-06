@@ -3,7 +3,7 @@ using Dates, DataFrames, ColorSchemes, PlotlyJS
 
 include("load_covid19_data.jl")
 
-reasonable_resolution() = (1000, 800)
+reasonable_resolution() = (1280, 720)
 
 # time index
 #for ti = 8:length(covid19us[1].confirmed)
@@ -11,48 +11,50 @@ for ti = length(covid19us[1].confirmed):length(covid19us[1].confirmed)
 #ti = 200
 #ti = length(covid19us[1].confirmed)
 
-cconfirmed = [covid19us[i].confirmed[ti] for i in 1:length(covid19us)];
-dcconfirmed = [mean(covid19us[i].confirmed[ti-7+1:ti] - covid19us[i].confirmed[ti-8+1:ti-1]) for i in 1:length(covid19us)];
-dcconfirmedinst = [mean(covid19us[i].confirmed[ti] - covid19us[i].confirmed[ti-1]) for i in 1:length(covid19us)];
-cdeath = [covid19us[i].death[ti] for i in 1:length(covid19us)];
-dcdeath = [mean(covid19us[i].death[ti-7+1:ti] - covid19us[i].death[ti-8+1:ti-1]) for i in 1:length(covid19us)];
-dcdeathinst = [mean(covid19us[i].death[ti] - covid19us[i].death[ti-1]) for i in 1:length(covid19us)];
+display(covid19us[1].time[ti])
+
+local cconfirmed = [covid19us[i].confirmed[ti] for i in 1:length(covid19us)];
+local dcconfirmed = [mean(covid19us[i].confirmed[ti-7+1:ti] - covid19us[i].confirmed[ti-8+1:ti-1]) for i in 1:length(covid19us)];
+local dcconfirmedinst = [mean(covid19us[i].confirmed[ti] - covid19us[i].confirmed[ti-1]) for i in 1:length(covid19us)];
+local cdeath = [covid19us[i].death[ti] for i in 1:length(covid19us)];
+local dcdeath = [mean(covid19us[i].death[ti-7+1:ti] - covid19us[i].death[ti-8+1:ti-1]) for i in 1:length(covid19us)];
+local dcdeathinst = [mean(covid19us[i].death[ti] - covid19us[i].death[ti-1]) for i in 1:length(covid19us)];
 
 # extracting county indices with land area and population
-cind = findall((countyarea .> 0) .& (cpop .> 0));
+local cind = findall((countyarea .> 0) .& (cpop .> 0));
 
-tind = 1:length(covid19us[1].confirmed);
-t = covid19us[1].time[tind];
+local tind = 1:length(covid19us[1].confirmed);
+local t = covid19us[1].time[tind];
 
 # plot a map of confirmed cases
 #cval = cconfirmed[cind] ./ (countyarea[cind] .* cpop[cind]);
-cval = cconfirmed[cind] ./ cpop[cind];
-log10cval = log10.(cval);
+local cval = cconfirmed[cind] ./ cpop[cind];
+local log10cval = log10.(cval);
 #sval = countyarea[cind] .* cpop[cind];
-sval = cpop[cind];
-log10sval = log10.(sval);
+local sval = cpop[cind];
+local log10sval = log10.(sval);
 
 # daily confirmed cases per 100k averaged over 7 days
-dCONFIRMEDpc = dcconfirmed[cind] ./ cpop[cind] .* 1e5;
-bind = findall(dCONFIRMEDpc .<= 0);
-dCONFIRMEDpc[bind] .= NaN;
+local dCONFIRMEDpc = dcconfirmed[cind] ./ cpop[cind] .* 1e5;
+local bind = findall(dCONFIRMEDpc .<= 0);
+local dCONFIRMEDpc[bind] .= NaN;
 
 # daily instant confirmed cases per 100k
-dCONFIRMEDpcinst = dcconfirmedinst[cind] ./ cpop[cind] .* 1e5;
-bind = findall(dCONFIRMEDpcinst .<= 0);
-dCONFIRMEDpcinst[bind] .= NaN;
+local dCONFIRMEDpcinst = dcconfirmedinst[cind] ./ cpop[cind] .* 1e5;
+local bind = findall(dCONFIRMEDpcinst .<= 0);
+local dCONFIRMEDpcinst[bind] .= NaN;
 
 # daily death per 100k averaged over 7 days
-dDEATHpc = dcdeath[cind] ./ cpop[cind] .* 1e5;
-bind = findall(dDEATHpc .<= 0);
-dDEATHpc[bind] .= NaN;
+local dDEATHpc = dcdeath[cind] ./ cpop[cind] .* 1e5;
+local bind = findall(dDEATHpc .<= 0);
+local dDEATHpc[bind] .= NaN;
 
 # daily instant death per 100k
-dDEATHpcinst = dcdeathinst[cind] ./ cpop[cind] .* 1e5;
-bind = findall(dDEATHpcinst .<= 0);
-dDEATHpcinst[bind] .= NaN;
+local dDEATHpcinst = dcdeathinst[cind] ./ cpop[cind] .* 1e5;
+local bind = findall(dDEATHpcinst .<= 0);
+local dDEATHpcinst[bind] .= NaN;
 
-df = DataFrame(LON = clon[cind], 
+local df = DataFrame(LON = clon[cind], 
     LAT = clat[cind], 
     POPULATION = cpop[cind], 
     log10POPULATION = log10.(cpop[cind]), 
@@ -328,7 +330,7 @@ end
 
 
 #figoutdir = "/Volumes/GoogleDrive/My Drive/COVID19/";
-figoutdir = "/Users/gong/GitHub/covid19_public/ts_maps/";
+local figoutdir = "/Users/gong/GitHub/covid19_public/ts_maps/";
 
 #PlotlyJS._js_path = "https://cdn.plot.ly/plotly-latest.min.js";
 
@@ -341,7 +343,7 @@ figoutdir = "/Users/gong/GitHub/covid19_public/ts_maps/";
 #end
 
 #p = pmapdconfirmed()
-mio = open(figoutdir * "covid19map_delta_confirmed_7days_" * string(t[ti]) * ".png", "w")
-PlotlyJS.savefig(mio, pmapdconfirmed(); format="png");
+local mio = open(figoutdir * "covid19map_delta_confirmed_7days_" * string(t[ti]) * ".jpg", "w")
+PlotlyJS.savefig(mio, pmapdconfirmed(); format="jpeg", width=1280, height=720, scale = 3);
 close(mio)
 end
