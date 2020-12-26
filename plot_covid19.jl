@@ -91,7 +91,9 @@ axis.names.title = string(t[end])[1:10] * " New Weekly Deaths per Capita (log)"
 Makie.save("/Volumes/GoogleDrive/My Drive/COVID19/" * "covid19_delta_dealth_map.png", scene)
 =#
 
+#Threads.@threads 
 for j = 1:length(states_of_interest)
+    #display(Threads.threadid())
     display(string(j) * " " * states_of_interest[j])
     ## calculate per state and total confirmed for US
     tind = 1:length(covid19us[1].confirmed);
@@ -222,7 +224,7 @@ for j = 1:length(states_of_interest)
         #confirmi[ind0] .= NaN;
         Plots.plot!(t, confirmi, label=ustate[si])
     end
-    Plots.plot(pCOVID19usa, yscale=:log10, ylim=(1,10^7.3) ,framestyle=:box, title="US - Confirmed COVID-19 Cases " * "as of " * string(t[end])[1:10] * ":  " * totalconfirmed_strfmt)
+    Plots.plot(pCOVID19usa, yscale=:log10, ylim=(1,10^7.4) ,framestyle=:box, title="US - Confirmed COVID-19 Cases " * "as of " * string(t[end])[1:10] * ":  " * totalconfirmed_strfmt)
 
     dtotalconfirmed_strfmt = Formatting.format.(dtotalconfirmed[end], commas=true);
     #dCOVID19usa = Plots.plot(t[2:end], dtotalconfirmed, m = (2, :auto), label="USA Daily Cases")

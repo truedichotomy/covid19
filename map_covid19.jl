@@ -141,7 +141,7 @@ function pmapdconfirmed()
             "Population: " .* string.(df[!, :POPULATION]) .* "<br>" .* 
             "Confirmed Cases (actual): " .* string.(df[!, :CONFIRMED]) .* "<br>" .* 
             "Confirmed Cases per 100k: " .* string.(round.(df[!, :CONFIRMEDpc], digits=2)) .* "<br>" .* 
-            "Daily New Cases (actual): " .* string.(df[!, :dCONFIRMED]) .* "<br>" .* 
+            "Daily New Cases (actual): " .* string.(round.(df[!, :dCONFIRMED], digits=2)) .* "<br>" .* 
             "Daily New Cases per 100k: " .* string.(round.(df[!, :dCONFIRMEDpc], digits=2)) .* "<br>" .* 
             "% infected with COVID19: " .* string.(round.(df[!, :CONFIRMED] ./ df[!, :POPULATION] .* 100, digits=2)) .* "<br>" .*
             "% death rate: " .* string.(round.(df[!, :DEATH] ./ df[!, :CONFIRMED] .*100, digits=2)) 
@@ -262,7 +262,7 @@ function pmapddeath()
             "Population: " .* string.(df[!, :POPULATION]) .* "<br>" .* 
             "Confirmed Cases (actual): " .* string.(df[!, :DEATH]) .* "<br>" .* 
             "Confirmed Cases per 100k: " .* string.(round.(df[!, :DEATHpc], digits=2)) .* "<br>" .*
-            "Daily New Deaths (actual): " .* string.(df[!, :dDEATH]) .* "<br>" .* 
+            "Daily New Deaths (actual): " .* string.(round.(df[!, :dDEATH], digits=2)) .* "<br>" .* 
             "Daily New Deaths per 100k: " .* string.(round.(df[!, :dDEATHpc], digits=2)) .* "<br>" .* 
             "% infected with COVID19: " .* string.(round.(df[!, :CONFIRMED] ./ df[!, :POPULATION] .* 100, digits=2)) .* "<br>" .*
             "% death rate: " .* string.(round.(df[!, :DEATH] ./ df[!, :CONFIRMED] .*100, digits=2)) 
