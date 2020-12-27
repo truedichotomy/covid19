@@ -334,7 +334,7 @@ for j = 1:length(states_of_interest)
 
     covid19plot = Plots.plot(pCOVID19usa, pCOVID19usaD, dCOVID19usa, dCOVID19usaD, pCOVID19state, pCOVID19stateD, dCOVID19state, dCOVID19stateD, dCOVID19statepc, dCOVID19statepcD, layout = l8out,  xrotation=35, size=reasonable_resolution(), xticks = t[1:14:end], legend=:false);
 
-    figoutdir = "/Users/gong/GitHub/covid19_public/timeseries/";
+    figoutdir = "../covid19_public/timeseries/";
     #Plots.savefig(covid19plot_confirmed, figoutdir * "covid19ts_confirmed_" * filter(x -> !isspace(x), state_of_interest) * ".html")
     #Plots.savefig(covid19plot_death, figoutdir * "covid19ts_death_" * filter(x -> !isspace(x), state_of_interest) * ".html")
     Plots.savefig(covid19plot, figoutdir * "covid19ts_integrated_" * filter(x -> !isspace(x), state_of_interest) * ".html")
