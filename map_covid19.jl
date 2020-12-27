@@ -327,7 +327,7 @@ end
 
 
 #figoutdir = "/Volumes/GoogleDrive/My Drive/COVID19/";
-figoutdir = "/Users/gong/GitHub/covid19_public/maps/";
+figoutdir = "../covid19_public/maps/";
 
 #PlotlyJS._js_path = "https://cdn.plot.ly/plotly-latest.min.js";
 
