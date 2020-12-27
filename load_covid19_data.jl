@@ -13,6 +13,7 @@ using Dates, Statistics, Shapefile, DataFrames, Glob
 
 ## Load CENSUS TIGER/Line Shapefile Data
 function load_county_data(countyshppath = "/Users/gong/Box/Data/CENSUS/tl_2019_us_county/tl_2019_us_county.shp")
+    countyshpdownloadurl = "https://liviandonglai.box.com/s/pv1zdejyy0ntsjikeiljqlfmoxiz8gba"
     return countytable = Shapefile.Table(countyshppath);
 end
 
