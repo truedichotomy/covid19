@@ -12,15 +12,16 @@ end
 using Dates, Statistics, Shapefile, DataFrames, Glob
 
 ## Load CENSUS TIGER/Line Shapefile Data
-function load_county_data(countyshppath = "/Users/gong/Box/Data/CENSUS/tl_2019_us_county/tl_2019_us_county.shp")
-    countyshpdownloadurl = "https://liviandonglai.box.com/s/pv1zdejyy0ntsjikeiljqlfmoxiz8gba"
+function load_county_data(countyshppath = "./tl_2019_us_county.shp")
+    #countyshpdownloadurl = "https://liviandonglai.box.com/s/pv1zdejyy0ntsjikeiljqlfmoxiz8gba"
+    #countyshpboxlocation = "/Users/gong/Box/Data/CENSUS/tl_2019_us_county/tl_2019_us_county.shp"
     return countytable = Shapefile.Table(countyshppath);
 end
 
 ## Load COVID-19 Data
-import COVID19
+#import COVID19
 
-(covid19g, covid19us, covid19nyt_state, covid19nyt_county) = COVID19.load_data();
+(covid19g, covid19us, covid19nyt_state, covid19nyt_county) = COVID19.load_data("./");
 
 country = [covid19us[i].country for i in 1:length(covid19us)];
 fips = [covid19us[i].fips for i in 1:length(covid19us)];
