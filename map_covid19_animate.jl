@@ -351,4 +351,8 @@ local mio = open(figoutdir * "covid19map_confirmed_7days_" * string(t[ti]) * ".j
 PlotlyJS.savefig(mio, pmapconfirmed(); format="jpeg", width=1280, height=720, scale = 3);
 close(mio)
 
+local mio = open(figoutdir * "covid19map_death_7days_" * string(t[ti]) * ".jpg", "w")
+PlotlyJS.savefig(mio, pmapdeath(); format="jpeg", width=1280, height=720, scale = 3);
+close(mio)
+
 end
