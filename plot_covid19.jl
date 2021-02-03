@@ -1,5 +1,5 @@
 
-using Dates, Formatting, Plots, ColorSchemes, Plotly, WebIO, DataFrames
+using Dates, Formatting, Plots, ColorSchemes, Plotly, WebIO, DataFrames, BenchmarkTools
 plotly()
 #using Makie
 
@@ -92,12 +92,14 @@ Makie.save("/Volumes/GoogleDrive/My Drive/COVID19/" * "covid19_delta_dealth_map.
 =#
 
 #Threads.@threads 
-for j = 1:length(states_of_interest)
-    #display(Threads.threadid())
+#for j = 1:length(states_of_interest)
+for j = 1:1
+        #display(Threads.threadid())
+
     display(string(j) * " " * states_of_interest[j])
     ## calculate per state and total confirmed for US
-    tind = 1:length(covid19us[1].confirmed);
-    t = covid19us[1].time[tind];
+    local tind = 1:length(covid19us[1].confirmed);
+    local t = covid19us[1].time[tind];
     totalconfirmed = zeros(length(t));
     stateconfirmed = Array{Any}(undef, length(ustate));
     dstateconfirmed = Array{Any}(undef, length(ustate));
@@ -209,7 +211,7 @@ for j = 1:length(states_of_interest)
     tindstate = 1:length(covid19us[ind[1]].confirmed);
     tstate = covid19us[ind[1]].time[tindstate];
 
-    display(statetotaldeath)
+    #display(statetotaldeath)
 
     # Plot COVID19 data!
     #l8out = @layout([a; b; c; d; e])
@@ -222,7 +224,7 @@ for j = 1:length(states_of_interest)
         confirmi = stateconfirmed[si];
         ind0 = findall(confirmi .== 0);
         #confirmi[ind0] .= NaN;
-        Plots.plot!(t, confirmi, label=ustate[si])
+        @time Plots.plot!(t, confirmi, label=ustate[si])
     end
     Plots.plot(pCOVID19usa, yscale=:log10, ylim=(1,10^7.4) ,framestyle=:box, title="US - Confirmed COVID-19 Cases " * "as of " * string(t[end])[1:10] * ":  " * totalconfirmed_strfmt)
 
@@ -334,7 +336,7 @@ for j = 1:length(states_of_interest)
 
     covid19plot = Plots.plot(pCOVID19usa, pCOVID19usaD, dCOVID19usa, dCOVID19usaD, pCOVID19state, pCOVID19stateD, dCOVID19state, dCOVID19stateD, dCOVID19statepc, dCOVID19statepcD, layout = l8out,  xrotation=35, size=reasonable_resolution(), xticks = t[1:14:end], legend=:false);
 
-    figoutdir = "../covid19_public/timeseries/";
+    local figoutdir = "../covid19_public/timeseries/";
     #Plots.savefig(covid19plot_confirmed, figoutdir * "covid19ts_confirmed_" * filter(x -> !isspace(x), state_of_interest) * ".html")
     #Plots.savefig(covid19plot_death, figoutdir * "covid19ts_death_" * filter(x -> !isspace(x), state_of_interest) * ".html")
     Plots.savefig(covid19plot, figoutdir * "covid19ts_integrated_" * filter(x -> !isspace(x), state_of_interest) * ".html")
