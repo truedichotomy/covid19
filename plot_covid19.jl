@@ -92,8 +92,8 @@ Makie.save("/Volumes/GoogleDrive/My Drive/COVID19/" * "covid19_delta_dealth_map.
 =#
 
 #Threads.@threads 
-#for j = 1:length(states_of_interest)
-for j = 1:1
+for j = 1:length(states_of_interest)
+#for j = 1:1
         #display(Threads.threadid())
 
     display(string(j) * " " * states_of_interest[j])
@@ -224,7 +224,7 @@ for j = 1:1
         confirmi = stateconfirmed[si];
         ind0 = findall(confirmi .== 0);
         #confirmi[ind0] .= NaN;
-        @time Plots.plot!(t, confirmi, label=ustate[si])
+        Plots.plot!(t, confirmi, label=ustate[si])
     end
     Plots.plot(pCOVID19usa, yscale=:log10, ylim=(1,10^7.4) ,framestyle=:box, title="US - Confirmed COVID-19 Cases " * "as of " * string(t[end])[1:10] * ":  " * totalconfirmed_strfmt)
 
