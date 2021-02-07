@@ -226,7 +226,7 @@ for j = 1:length(states_of_interest)
         #confirmi[ind0] .= NaN;
         Plots.plot!(t, confirmi, label=ustate[si])
     end
-    Plots.plot(pCOVID19usa, yscale=:log10, ylim=(1,10^7.4) ,framestyle=:box, title="US - Confirmed COVID-19 Cases " * "as of " * string(t[end])[1:10] * ":  " * totalconfirmed_strfmt)
+    Plots.plot(pCOVID19usa, yscale=:log10, ylim=(1,10^7.5) ,framestyle=:box, title="US - Confirmed COVID-19 Cases " * "as of " * string(t[end])[1:10] * ":  " * totalconfirmed_strfmt)
 
     dtotalconfirmed_strfmt = Formatting.format.(dtotalconfirmed[end], commas=true);
     #dCOVID19usa = Plots.plot(t[2:end], dtotalconfirmed, m = (2, :auto), label="USA Daily Cases")
@@ -285,7 +285,7 @@ for j = 1:length(states_of_interest)
         #deathi[ind0] .= NaN;
         Plots.plot!(t, deathi, label=ustate[si])
     end
-    Plots.plot(pCOVID19usaD, yscale=:log10, ylim=(1,10^5.7), framestyle=:box, title="US - COVID-19 Death " * "as of " * string(t[end])[1:10] * ":  " * totaldeath_strfmt)
+    Plots.plot(pCOVID19usaD, yscale=:log10, ylim=(1,10^5.8), framestyle=:box, title="US - COVID-19 Death " * "as of " * string(t[end])[1:10] * ":  " * totaldeath_strfmt)
 
     dtotaldeath_strfmt = Formatting.format.(dtotaldeath[end], commas=true);
     dCOVID19usaD = Plots.plot(t[2:end], dtotaldeath, label="USA Daily Deaths")

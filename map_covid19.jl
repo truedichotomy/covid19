@@ -260,8 +260,8 @@ function pmapddeath()
         hovertext=
             "County: " .* county[cind] .* ", " .* state[cind] .* "<br>" .*
             "Population: " .* string.(df[!, :POPULATION]) .* "<br>" .* 
-            "Confirmed Cases (actual): " .* string.(df[!, :DEATH]) .* "<br>" .* 
-            "Confirmed Cases per 100k: " .* string.(round.(df[!, :DEATHpc], digits=2)) .* "<br>" .*
+            "Confirmed Deaths (actual): " .* string.(df[!, :DEATH]) .* "<br>" .* 
+            "Confirmed Deaths per 100k: " .* string.(round.(df[!, :DEATHpc], digits=2)) .* "<br>" .*
             "Daily New Deaths (actual): " .* string.(round.(df[!, :dDEATH], digits=2)) .* "<br>" .* 
             "Daily New Deaths per 100k: " .* string.(round.(df[!, :dDEATHpc], digits=2)) .* "<br>" .* 
             "% infected with COVID19: " .* string.(round.(df[!, :CONFIRMED] ./ df[!, :POPULATION] .* 100, digits=2)) .* "<br>" .*
@@ -301,8 +301,8 @@ function pmapddeathinst()
         hovertext=
             "County: " .* county[cind] .* ", " .* state[cind] .* "<br>" .*
             "Population: " .* string.(df[!, :POPULATION]) .* "<br>" .* 
-            "Confirmed Cases (actual): " .* string.(df[!, :DEATH]) .* "<br>" .* 
-            "Confirmed Cases per 100k: " .* string.(round.(df[!, :DEATHpc], digits=2)) .* "<br>" .*
+            "Confirmed Deaths (actual): " .* string.(df[!, :DEATH]) .* "<br>" .* 
+            "Confirmed Deaths per 100k: " .* string.(round.(df[!, :DEATHpc], digits=2)) .* "<br>" .*
             "Daily New Deaths (actual): " .* string.(df[!, :dDEATHinst]) .* "<br>" .* 
             "Daily New Deaths per 100k: " .* string.(round.(df[!, :dDEATHpcinst], digits=2)) .* "<br>" .* 
             "% infected with COVID19: " .* string.(round.(df[!, :CONFIRMED] ./ df[!, :POPULATION] .* 100, digits=2)) .* "<br>" .*
