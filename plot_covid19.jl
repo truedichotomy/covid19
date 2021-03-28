@@ -245,7 +245,7 @@ for j = 1:length(states_of_interest)
     statetotalconfirmed_strfmt = Formatting.format.(statetotalconfirmed[end], commas=true);
     pCOVID19state = Plots.plot(t, statetotalconfirmed, label=state[ind[1]] * " Total")
     for i = 1:length(ind)
-        display(i)
+        #display(i)
         confirmi = Float64.(deepcopy(covid19us[ind[i]].confirmed[tindstate]));
         ind0 = findall(confirmi .== 0);
         confirmi[ind0] .= NaN;
@@ -304,7 +304,7 @@ for j = 1:length(states_of_interest)
     for i = 1:length(ind)
         deathi = Float64.(deepcopy(covid19us[ind[i]].death[tind]));
         ind0 = findall(deathi .== 0);
-        #deathi[ind0] .= NaN;
+        deathi[ind0] .= NaN;
         Plots.plot!(covid19us[ind[i]].time[tind], deathi, label=county[ind[i]])
     end
     Plots.plot(pCOVID19stateD, yscale=:log10, framestyle=:box, title=state[ind[1]] * " - COVID-19 Deaths " * "as of " * string(t[end])[1:10] * ":  " * statetotaldeath_strfmt)
@@ -314,7 +314,7 @@ for j = 1:length(states_of_interest)
     for i = 1:length(ind)
         deathi = dcountydeath[i];
         ind0 = findall(deathi .== 0);
-        #deathi[ind0] .= NaN;
+        deathi[ind0] .= NaN;
         Plots.plot!(tstate[2:end], deathi, label=county[ind[i]])
     end
     #Plots.plot(dCOVID19stateD, framestyle=:box, title=state[ind[1]] * " - Daily COVID-19 Deaths " * "on " * string(t[end])[1:10] * ":  " * dstatetotaldeath_strfmt, marker = (2, :circle, 2),  markerstrokewidth = 0)
