@@ -54,11 +54,14 @@ ctaland = countytable.ALAND;
 ctawater = countytable.AWATER;
 ctname = countytable.NAME;
 
-countyarea = zeros(length(strfips));
+countyarea = Array{Float64}(undef,(length(strfips)));
+countyarea .= NaN;
 for i = 1:length(strfips)
     if parse(Int,strfips[i][1:2]) <= 59
-        fipsind = findall(strfips[i] .== ctcensusfips);
-        countyarea[i] = ctaland[fipsind[1]];
+        local fipsind = findall(strfips[i] .== ctcensusfips);
+        if isempty(fipsind) == false
+            countyarea[i] = ctaland[fipsind[1]];
+        end
     end
 end
 
