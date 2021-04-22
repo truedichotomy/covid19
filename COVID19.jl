@@ -11,7 +11,7 @@ module COVID19
 # FIPS: 
 # https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/UID_ISO_FIPS_LookUp_Table.csv
 
-using CSV, DataFrames, Dates
+using CSV, DataFrames, Dates, Downloads
 
 export load_data_from_web, load_data
 
@@ -47,11 +47,11 @@ function load_data_from_nyt(datadir = ENV["HOME"] * "/Box/Data/COVID19/")
     covid19nyt_path_county = datadir * "covid19nyt_county.csv";
     covid19nyt_path_state = datadir * "covid19nyt_state.csv";
 
-    download(covid19nyt_url_county, covid19nyt_path_county);
-    download(covid19nyt_url_state, covid19nyt_path_state);
+    Downloads.download(covid19nyt_url_county, covid19nyt_path_county);
+    Downloads.download(covid19nyt_url_state, covid19nyt_path_state);
 
-    covid19nyt_county = DataFrame!(CSV.File(covid19nyt_path_county));
-    covid19nyt_state = DataFrame!(CSV.File(covid19nyt_path_state));
+    covid19nyt_county = DataFrame(CSV.File(covid19nyt_path_county));
+    covid19nyt_state = DataFrame(CSV.File(covid19nyt_path_state));
     return covid19nyt_state, covid19nyt_county;
 end
 
@@ -70,12 +70,12 @@ function load_data_from_web(datadir = ENV["HOME"] * "/Box/Data/COVID19/")
     covid19path_recovered_global = datadir * "covid19_recovered_global.csv"
     covid19path_fips = datadir * "UID_ISO_FIPS_LookUp_Table.csv"
 
-    download(covid19url_confirmed_US, covid19path_confirmed_US)
-    download(covid19url_confirmed_global, covid19path_confirmed_global)
-    download(covid19url_death_US, covid19path_death_US)
-    download(covid19url_death_global, covid19path_death_global)
-    download(covid19url_recovered_global, covid19path_recovered_global)
-    download(covid19url_fips, covid19path_fips)
+    Downloads.download(covid19url_confirmed_US, covid19path_confirmed_US)
+    Downloads.download(covid19url_confirmed_global, covid19path_confirmed_global)
+    Downloads.download(covid19url_death_US, covid19path_death_US)
+    Downloads.download(covid19url_death_global, covid19path_death_global)
+    Downloads.download(covid19url_recovered_global, covid19path_recovered_global)
+    Downloads.download(covid19url_fips, covid19path_fips)
 
 #=     io = open(covid19path_confirmed, "w")
     r = HTTP.request("GET", covid19url_confirmed, response_stream=io)
@@ -87,12 +87,12 @@ function load_data_from_web(datadir = ENV["HOME"] * "/Box/Data/COVID19/")
     r = HTTP.request("GET", covid19url_recovered, response_stream=io)
     close(io) =#
 
-    confirmed_US = DataFrame!(CSV.File(covid19path_confirmed_US));
-    death_US = DataFrame!(CSV.File(covid19path_death_US));
-    confirmed_global = DataFrame!(CSV.File(covid19path_confirmed_global));
-    death_global = DataFrame!(CSV.File(covid19path_death_global));
-    recovered_global = DataFrame!(CSV.File(covid19path_recovered_global));
-    fipstable = DataFrame!(CSV.File(covid19path_fips));
+    confirmed_US = DataFrame(CSV.File(covid19path_confirmed_US));
+    death_US = DataFrame(CSV.File(covid19path_death_US));
+    confirmed_global = DataFrame(CSV.File(covid19path_confirmed_global));
+    death_global = DataFrame(CSV.File(covid19path_death_global));
+    recovered_global = DataFrame(CSV.File(covid19path_recovered_global));
+    fipstable = DataFrame(CSV.File(covid19path_fips));
 
     return confirmed_US, death_US, confirmed_global, death_global, recovered_global, fipstable
 end
@@ -112,15 +112,15 @@ function load_data(datadir = ENV["HOME"] * "/Box/Data/COVID19/")
     covid19nyt_path_county = datadir * "covid19nyt_county.csv";
     covid19nyt_path_state = datadir * "covid19nyt_state.csv";
 
-    confirmed_US = DataFrame!(CSV.File(covid19path_confirmed_US));
-    death_US = DataFrame!(CSV.File(covid19path_death_US));
-    confirmed_global = DataFrame!(CSV.File(covid19path_confirmed_global));
-    death_global = DataFrame!(CSV.File(covid19path_death_global));
-    recovered_global = DataFrame!(CSV.File(covid19path_recovered_global));
-    fipstable = DataFrame!(CSV.File(covid19path_fips));
+    confirmed_US = DataFrame(CSV.File(covid19path_confirmed_US));
+    death_US = DataFrame(CSV.File(covid19path_death_US));
+    confirmed_global = DataFrame(CSV.File(covid19path_confirmed_global));
+    death_global = DataFrame(CSV.File(covid19path_death_global));
+    recovered_global = DataFrame(CSV.File(covid19path_recovered_global));
+    fipstable = DataFrame(CSV.File(covid19path_fips));
 
-    covid19nyt_county = DataFrame!(CSV.File(covid19nyt_path_county));
-    covid19nyt_state = DataFrame!(CSV.File(covid19nyt_path_state));
+    covid19nyt_county = DataFrame(CSV.File(covid19nyt_path_county));
+    covid19nyt_state = DataFrame(CSV.File(covid19nyt_path_state));
 
     # defining the time
     t0 = Date("2020-01-22")
@@ -139,7 +139,7 @@ function load_data(datadir = ENV["HOME"] * "/Box/Data/COVID19/")
     
     covid19global = COVID19data[];
     for i = 1:size(latg)[1]
-        covid19global = push!(covid19global, COVID19data(country[i], province_state[i], "", province_state[i] * " ," * country[i], -9999, latg[i], long[i], -9999, t, confirmed_global[i,5:end], death_global[i,5:end]));
+        covid19global = push!(covid19global, COVID19data(country[i], province_state[i], "", province_state[i] * " ," * country[i], -9999, latg[i], long[i], -9999, t, collect(confirmed_global[i,5:end]), collect(death_global[i,5:end])));
     end
 
     # loading the US COVID19 time series
@@ -155,7 +155,7 @@ function load_data(datadir = ENV["HOME"] * "/Box/Data/COVID19/")
     covid19us = COVID19data[];
     for i = 1:size(latus)[1]
         #display(i)
-        covid19us = push!(covid19us, COVID19data(countryUS[i], province_stateUS[i], county[i], key[i], fips[i], latus[i], lonus[i], population[i], t, confirmed_US[i,12:end], death_US[i,13:end]));
+        covid19us = push!(covid19us, COVID19data(countryUS[i], province_stateUS[i], county[i], key[i], fips[i], latus[i], lonus[i], population[i], t, collect(confirmed_US[i,12:end]), collect(death_US[i,13:end])));
     end
 
     return covid19global, covid19us, covid19nyt_state, covid19nyt_county
