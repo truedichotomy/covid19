@@ -39,7 +39,16 @@ mutable struct COVID19nyt
     death::Array{Int}
 end
 
-function load_data_from_nyt(datadir = ENV["HOME"] * "/Box/Data/COVID19/")
+# define data path for non-windows and windows systems
+if Sys.iswindows() == false
+    datadir0 = ENV["HOME"]
+    datadir1 = datadir0 * "/Box/Data/COVID19/"
+else
+    datadir0 = ENV["HOMEDRIVE"] * ENV["HOMEPATH"]
+    datadir1 = datadir0 * "\\Box\\Data\\COVID19\\"
+end
+
+function load_data_from_nyt(datadir = datadir1)
     # data source: https://github.com/nytimes/covid-19-data
     covid19nyt_url_county = "https://github.com/nytimes/covid-19-data/raw/master/us-counties.csv";
     covid19nyt_url_state = "https://github.com/nytimes/covid-19-data/raw/master/us-states.csv";
@@ -55,7 +64,7 @@ function load_data_from_nyt(datadir = ENV["HOME"] * "/Box/Data/COVID19/")
     return covid19nyt_state, covid19nyt_county;
 end
 
-function load_data_from_web(datadir = ENV["HOME"] * "/Box/Data/COVID19/")
+function load_data_from_web(datadir = datadir1)
     covid19url_confirmed_US = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_US.csv"
     covid19url_confirmed_global = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"
     covid19url_death_US = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_US.csv"
@@ -98,7 +107,7 @@ function load_data_from_web(datadir = ENV["HOME"] * "/Box/Data/COVID19/")
 end
 
 #function load_covid19(confirmed_US::Any,death_US::Any,confirmed_global::Any,death_global::Any,fipstable::Any)
-function load_data(datadir = ENV["HOME"] * "/Box/Data/COVID19/")
+function load_data(datadir = datadir1)
     #(confirmed_US, death_US, confirmed_global, death_global, recovered_global, ipstable) = load_data_from_web(datadir);
     #(covid19nyt_state, covid19nyt_county) = load_data_from_nyt(datadir);
 

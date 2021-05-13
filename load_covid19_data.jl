@@ -1,6 +1,12 @@
 #using Pkg
 #Pkg.activate(ENV["HOME"] * "/.julia/environments/" * "covid19")
-if (ENV["HOME"] * "/GitHub/covid19" in LOAD_PATH) == false
+if Sys.iswindows() == false
+    covid19dir = ENV["HOME"] * "/GitHub/covid19"
+else
+    covid19dir = ENV["HOMEDRIVE"] * ENV["HOMEPATH"] * "\\GitHub\\covid19"
+end
+
+if (covid19dir in LOAD_PATH) == false
     push!(LOAD_PATH, pwd());
 end
 
