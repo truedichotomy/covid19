@@ -7,7 +7,7 @@ reasonable_resolution() = (1280, 720)
 
 # time index
 #for ti = 8:length(covid19us[1].confirmed)
-for ti = length(covid19us[1].confirmed)-5:length(covid19us[1].confirmed)
+for ti = length(covid19us[1].confirmed)-10:length(covid19us[1].confirmed)
 #ti = 200
 #ti = length(covid19us[1].confirmed)
 
