@@ -92,7 +92,7 @@ function pmapconfirmed()
         marker_colorscale="Jet",
         marker_showscale = true,
         marker_cmin = 2,
-        marker_cmax = 4,
+        marker_cmax = 4.2,
 
         hoverinfo="text",
         hovertext=
@@ -104,7 +104,6 @@ function pmapconfirmed()
             "Cumulative Deaths per 100k: " .* string.(round.(df[!, :DEATHpc], digits=2)) .* "<br>" .*
             "% infected with COVID19: " .* string.(round.(df[!, :CONFIRMED] ./ df[!, :POPULATION] .* 100, digits=2)) .* "<br>" .*
             "% death rate: " .* string.(round.(df[!, :DEATH] ./ df[!, :CONFIRMED] .*100, digits=2)) 
-
         );
 
     geo = attr(scope="usa", 
