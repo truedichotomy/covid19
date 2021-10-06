@@ -1,5 +1,5 @@
 
-using Dates, Formatting, Plots, ColorSchemes, Plotly, WebIO, DataFrames, BenchmarkTools
+using Dates, Formatting, Plots, ColorSchemes, WebIO, DataFrames, BenchmarkTools
 plotly()
 #using Makie
 

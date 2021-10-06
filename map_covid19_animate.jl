@@ -1,7 +1,7 @@
 #module map_covid19
 using Dates, DataFrames, ColorSchemes, PlotlyJS
 
-include("load_covid19_data.jl")
+#include("load_covid19_data.jl")
 
 reasonable_resolution() = (1280, 720)
 

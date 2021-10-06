@@ -1,7 +1,8 @@
 #module map_covid19
 using Dates, DataFrames, ColorSchemes, PlotlyJS
 
-include("load_covid19_data.jl")
+#include("COVID19.jl")
+#include("load_covid19_data.jl")
 
 reasonable_resolution() = (1000, 800)
 
@@ -330,10 +331,17 @@ figoutdir = "../covid19_public/maps/";
 
 #PlotlyJS._js_path = "https://cdn.plot.ly/plotly-latest.min.js";
 
-PlotlyJS.savehtml(pmapconfirmed(), figoutdir * "covid19map_confirmed.html", :remote);
-PlotlyJS.savehtml(pmapdconfirmed(), figoutdir * "covid19map_delta_confirmed_7days.html", :remote);
-PlotlyJS.savehtml(pmapdconfirmedinst(), figoutdir * "covid19map_delta_confirmed_latest.html", :remote);
-PlotlyJS.savehtml(pmapdeath(), figoutdir * "covid19map_death.html", :remote);
-PlotlyJS.savehtml(pmapddeath(), figoutdir * "covid19map_delta_death_7days.html", :remote);
-PlotlyJS.savehtml(pmapddeathinst(), figoutdir * "covid19map_delta_death_latest.html", :remote);
+PlotlyJS.savefig(pmapconfirmed(), figoutdir * "covid19map_confirmed.html", format="html");
+PlotlyJS.savefig(pmapdconfirmed(), figoutdir * "covid19map_delta_confirmed_7days.html", format="html");
+PlotlyJS.savefig(pmapdconfirmedinst(), figoutdir * "covid19map_delta_confirmed_latest.html", format="html");
+PlotlyJS.savefig(pmapdeath(), figoutdir * "covid19map_death.html", format="html");
+PlotlyJS.savefig(pmapddeath(), figoutdir * "covid19map_delta_death_7days.html", format="html");
+PlotlyJS.savefig(pmapddeathinst(), figoutdir * "covid19map_delta_death_latest.html", format="html");
+
+#PlotlyJS.savehtml(pmapconfirmed(), figoutdir * "covid19map_confirmed.html", :remote);
+#PlotlyJS.savehtml(pmapdconfirmed(), figoutdir * "covid19map_delta_confirmed_7days.html", :remote);
+#PlotlyJS.savehtml(pmapdconfirmedinst(), figoutdir * "covid19map_delta_confirmed_latest.html", :remote);
+#PlotlyJS.savehtml(pmapdeath(), figoutdir * "covid19map_death.html", :remote);
+#PlotlyJS.savehtml(pmapddeath(), figoutdir * "covid19map_delta_death_7days.html", :remote);
+#PlotlyJS.savehtml(pmapddeathinst(), figoutdir * "covid19map_delta_death_latest.html", :remote);
 #end
