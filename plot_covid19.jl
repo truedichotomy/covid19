@@ -379,7 +379,7 @@ for j = 1:length(states_of_interest)
     #covid19plot_confirmed = Plots.plot(pCOVID19usa, dCOVID19usa, pCOVID19state, dCOVID19state, dCOVID19statepc, layout = l8out,  xrotation=30, size=(800,900), xticks = t[1:7:end], legend=:false);
     #covid19plot_death = Plots.plot(pCOVID19usa, dCOVID19usa, pCOVID19state, dCOVID19state, dCOVID19statepc, layout = l8out,  xrotation=30, size=(800,900), xticks = t[1:7:end], legend=:false);
 
-    local covid19plot = Plots.plot(pCOVID19usa, pCOVID19usaD, dCOVID19usa, dCOVID19usaD, pCOVID19state, pCOVID19stateD, dCOVID19state, dCOVID19stateD, dCOVID19statepc, dCOVID19statepcD, layout = l8out,  xrotation=45, size=reasonable_resolution(), xticks = t[1:14:end], legend=:false);
+    local covid19plot = Plots.plot(pCOVID19usa, pCOVID19usaD, dCOVID19usa, dCOVID19usaD, pCOVID19state, pCOVID19stateD, dCOVID19state, dCOVID19stateD, dCOVID19statepc, dCOVID19statepcD, layout = l8out,  xrotation=30, size=reasonable_resolution(), xticks = t[1:31:end], legend=:false);
 
     local figoutdir = "../covid19_public/timeseries/";
     #Plots.savefig(covid19plot_confirmed, figoutdir * "covid19ts_confirmed_" * filter(x -> !isspace(x), state_of_interest) * ".html")

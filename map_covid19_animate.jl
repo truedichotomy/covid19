@@ -3,7 +3,7 @@ using Dates, DataFrames, ColorSchemes, PlotlyJS
 
 #include("load_covid19_data.jl")
 
-reasonable_resolution() = (1280, 720)
+reasonable_resolution() = (1440, 900)
 
 # time index
 #for ti = 8:length(covid19us[1].confirmed)
