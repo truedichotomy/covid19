@@ -57,7 +57,7 @@ df = DataFrame(LON = clon[cind],
     POPULATION = cpop[cind], 
     log10POPULATION = log10.(cpop[cind]), 
     logPOPULATION = log.(cpop[cind]), 
-    nrootPOPULATION = (cpop[cind]) .^ (1.0/2.7)/5,
+    nrootPOPULATION = (cpop[cind]) .^ (1.0/2.85)/5,
 
     CONFIRMEDpc = cconfirmed[cind] ./ cpop[cind] .* 1e5, 
     CONFIRMED = cconfirmed[cind],
