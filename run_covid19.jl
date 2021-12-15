@@ -4,4 +4,4 @@
 @time include("load_covid19_data.jl")
 @time include("plot_covid19.jl")
 @time include("map_covid19.jl")
-@time include("map_covid19_animate.jl")
+#@time include("map_covid19_animate.jl")
