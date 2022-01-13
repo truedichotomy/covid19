@@ -92,8 +92,8 @@ function pmapconfirmed()
         marker_color=df[!, :log10CONFIRMEDpc],
         marker_colorscale="Jet",
         marker_showscale = true,
-        marker_cmin = 3,
-        marker_cmax = 4.3,
+        marker_cmin = 3.5,
+        marker_cmax = 4.5,
 
         hoverinfo="text",
         hovertext=
