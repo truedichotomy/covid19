@@ -133,7 +133,7 @@ function pmapdconfirmed()
         marker_colorscale="Jet",
         marker_showscale = true,
         marker_cmin = -0.5,
-        marker_cmax = 2.5,
+        marker_cmax = 2.7,
         hoverinfo="text",
         #hovertext=string.(df[!, :dCONFIRMED]) .* " " .* county[cind],
         hovertext=
@@ -214,7 +214,7 @@ function pmapdeath()
         marker_colorscale="Jet",
         marker_showscale = true,
         marker_cmin = 0,
-        marker_cmax = 2.5,
+        marker_cmax = 2.7,
         hoverinfo="text",
         #hovertext=string.(df[!, :DEATH]) .* " " .* county[cind],
         hovertext=
