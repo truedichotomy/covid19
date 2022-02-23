@@ -237,7 +237,7 @@ for j = 1:length(states_of_interest)
 
     local totalconfirmed_strfmt = Formatting.format.(totalconfirmed[end], commas=true);
     local titlestr = "US - Confirmed COVID-19 Cases " * "as of " * string(t[end])[1:10] * ":  " * totalconfirmed_strfmt;
-    local pCOVID19usa = Plots.plot(t, totalconfirmed, label="USA Total", yscale=:log10, ylim=(1,10^7.8), framestyle=:box, title = titlestr)
+    local pCOVID19usa = Plots.plot(t, totalconfirmed, label="USA Total", yscale=:log10, ylim=(1,10^8.0), framestyle=:box, title = titlestr)
     for si = 1:length(ustate)
         confirmi = stateconfirmed[si];
         ind0 = findall(confirmi .== 0);
@@ -314,7 +314,7 @@ for j = 1:length(states_of_interest)
 
     local totaldeath_strfmt = Formatting.format.(totaldeath[end], commas=true);
     local titlestr="US - COVID-19 Death " * "as of " * string(t[end])[1:10] * ":  " * totaldeath_strfmt;
-    local pCOVID19usaD = Plots.plot(t, totaldeath, label="USA Total Deaths", yscale=:log10, ylim=(1,10^5.9), framestyle=:box, title = titlestr)
+    local pCOVID19usaD = Plots.plot(t, totaldeath, label="USA Total Deaths", yscale=:log10, ylim=(1,10^6.0), framestyle=:box, title = titlestr)
     for si = 1:length(ustate)
         deathi = statedeath[si];
         ind0 = findall(deathi .== 0.0);
