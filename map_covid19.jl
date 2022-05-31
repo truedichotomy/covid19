@@ -1,5 +1,6 @@
 #module map_covid19
-using Dates, DataFrames, ColorSchemes, PlotlyJS
+using Dates, DataFrames, ColorSchemes, PlotlyJS, PlotlySave, FileIO
+import PlotlySave.savefig
 
 #include("COVID19.jl")
 #include("load_covid19_data.jl")
@@ -330,6 +331,8 @@ end
 figoutdir = "../covid19_public/maps/";
 
 #PlotlyJS._js_path = "https://cdn.plot.ly/plotly-latest.min.js";
+
+#save(pmapconfirmed(), figoutdir * "covid19map_confirmed.html", format="html");
 
 PlotlyJS.savefig(pmapconfirmed(), figoutdir * "covid19map_confirmed.html", format="html");
 PlotlyJS.savefig(pmapdconfirmed(), figoutdir * "covid19map_delta_confirmed_7days.html", format="html");
