@@ -1,5 +1,5 @@
 #module map_covid19
-using Dates, DataFrames, ColorSchemes, PlotlyJS, PlotlySave, FileIO
+using Dates, DataFrames, ColorSchemes, PlotlyJS, FileIO
 #import PlotlySave.savefig
 
 #include("COVID19.jl")
