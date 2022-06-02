@@ -1,5 +1,5 @@
 
-using Dates, Formatting, Plots, ColorSchemes, WebIO, DataFrames, BenchmarkTools, PlotlySave
+using Dates, Formatting, Plots, ColorSchemes, WebIO, DataFrames, BenchmarkTools
 #import PlotlySave.savefig
 plotly()
 #using Makie
