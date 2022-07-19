@@ -385,7 +385,7 @@ for j = 1:length(states_of_interest)
     local figoutdir = "../covid19_public/timeseries/";
     #Plots.savefig(covid19plot_confirmed, figoutdir * "covid19ts_confirmed_" * filter(x -> !isspace(x), state_of_interest) * ".html")
     #Plots.savefig(covid19plot_death, figoutdir * "covid19ts_death_" * filter(x -> !isspace(x), state_of_interest) * ".html")
-    Plots.savefig(covid19plot, figoutdir * "covid19ts_integrated_" * filter(x -> !isspace(x), state_of_interest) * ".html")
+    @time Plots.savefig(covid19plot, figoutdir * "covid19ts_integrated_" * filter(x -> !isspace(x), state_of_interest) * ".html")
 
     #gui(covid19plot)
     #sleep(1.0)    

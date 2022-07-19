@@ -1,8 +1,8 @@
 using PlotlyJS
 
 function linescatter1()
-    trace1 = scatter(;x=1:4, y=[10, 15, 13, 17], mode="markers")
-    plot([trace1])
+    trace1 = PlotlyJS.scatter(;x=1:4, y=[10, 15, 13, 17], mode="markers")
+    PlotlyJS.plot([trace1])
 end
 linescatter1()
 
